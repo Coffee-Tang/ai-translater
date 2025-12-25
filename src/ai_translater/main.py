@@ -1,6 +1,7 @@
 """主入口模块 - PDF OCR翻译工具"""
 
 import argparse
+import json
 import os
 import sys
 from enum import Enum
@@ -68,6 +69,7 @@ class PDFTranslator:
         output_format: OutputFormat = OutputFormat.DUAL_COLUMN,
         title: Optional[str] = None,
         page_range: Optional[tuple[int, int]] = None,
+        ocr_output_dir: Optional[str | Path] = None,
         verbose: bool = True,
     ) -> None:
         """处理PDF文件
@@ -78,6 +80,7 @@ class PDFTranslator:
             output_format: 输出格式
             title: 文档标题
             page_range: 页面范围
+            ocr_output_dir: OCR结果保存目录，每页生成独立JSON文件
             verbose: 是否输出详细信息
         """
         input_pdf = Path(input_pdf)
@@ -98,6 +101,12 @@ class PDFTranslator:
         if verbose:
             print("🔍 正在进行OCR识别...")
         ocr_results = self._perform_ocr(images, verbose)
+
+        # 2.5 保存OCR结果到JSON文件（如果指定了输出目录）
+        if ocr_output_dir:
+            if verbose:
+                print("💾 正在保存OCR结果...")
+            self._save_ocr_results(ocr_results, ocr_output_dir, input_pdf.stem, verbose)
 
         # 3. 翻译
         if verbose:
@@ -130,6 +139,57 @@ class PDFTranslator:
             result = self.ocr.recognize(img, page_num=i)
             results.append(result)
         return results
+
+    def _save_ocr_results(
+        self,
+        ocr_results: List[PageOCRResult],
+        output_dir: str | Path,
+        pdf_name: str,
+        verbose: bool = True,
+    ) -> None:
+        """保存OCR结果到JSON文件，每页一个文件
+        
+        Args:
+            ocr_results: OCR识别结果列表
+            output_dir: 输出目录
+            pdf_name: PDF文件名（不含扩展名）
+            verbose: 是否输出详细信息
+        """
+        output_dir = Path(output_dir)
+        output_dir.mkdir(parents=True, exist_ok=True)
+        
+        for result in ocr_results:
+            page_num = result.page_num + 1  # 转为1-based页码
+            
+            # 构建JSON数据
+            page_data = {
+                "page": page_num,
+                "source_file": pdf_name,
+                "text_blocks": [
+                    {
+                        "text": block.text,
+                        "confidence": block.confidence,
+                        "bbox": block.bbox,
+                        "position": {
+                            "x": block.x,
+                            "y": block.y,
+                            "width": block.width,
+                            "height": block.height,
+                        }
+                    }
+                    for block in result.text_blocks
+                ],
+                "full_text": result.full_text,
+                "text_block_count": len(result.text_blocks),
+            }
+            
+            # 保存到文件
+            output_file = output_dir / f"{pdf_name}_page_{page_num:04d}.json"
+            with open(output_file, "w", encoding="utf-8") as f:
+                json.dump(page_data, f, ensure_ascii=False, indent=2)
+            
+            if verbose:
+                print(f"   保存第 {page_num} 页 -> {output_file.name}")
 
     def _translate(
         self,
@@ -212,6 +272,7 @@ def main():
   ai-translater input.pdf output.pdf
   ai-translater input.pdf output.pdf --format interleaved
   ai-translater input.pdf output.pdf --pages 1-5
+  ai-translater input.pdf output.pdf --ocr-output-dir ./ocr_results/
   ai-translater input.pdf --extract-only output.txt
         """,
     )
@@ -266,6 +327,10 @@ def main():
         action="store_true",
         help="安静模式，不输出详细信息",
     )
+    parser.add_argument(
+        "--ocr-output-dir",
+        help="OCR结果保存目录，每页生成独立JSON文件",
+    )
 
     args = parser.parse_args()
 
@@ -305,6 +370,7 @@ def main():
                 output_format=output_format,
                 title=args.title,
                 page_range=page_range,
+                ocr_output_dir=args.ocr_output_dir,
                 verbose=not args.quiet,
             )
 
