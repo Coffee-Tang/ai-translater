@@ -1,0 +1,31 @@
+[project]
+name = "ai-translater"
+version = "0.1.0"
+description = "PDF OCR翻译工具 - 从扫描PDF中提取文字并翻译成中文"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "paddleocr>=2.7.0",
+    "paddlepaddle>=2.5.0",
+    "pdf2image>=1.16.0",
+    "pymupdf>=1.23.0",
+    "openai>=1.0.0",
+    "reportlab>=4.0.0",
+    "python-dotenv>=1.0.0",
+    "Pillow>=10.0.0",
+]
+
+[project.scripts]
+ai-translater = "ai_translater.main:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/ai_translater"]
+
+[tool.uv]
+dev-dependencies = [
+    "pytest>=8.0.0",
+]
