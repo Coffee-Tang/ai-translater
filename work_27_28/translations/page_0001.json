@@ -1,0 +1,822 @@
+{
+  "page": 1,
+  "source_file": "test",
+  "image_file": "page_0027.png",
+  "text_blocks": [
+    {
+      "text": "•m1",
+      "confidence": 0.2611057460308075,
+      "bbox": [
+        [
+          48,
+          379
+        ],
+        [
+          303,
+          378
+        ],
+        [
+          305,
+          2132
+        ],
+        [
+          50,
+          2132
+        ]
+      ],
+      "position": {
+        "x": 48,
+        "y": 378,
+        "width": 257,
+        "height": 1754
+      }
+    },
+    {
+      "text": "OIL DESCRIPTIONS",
+      "confidence": 0.9820186495780945,
+      "bbox": [
+        [
+          353,
+          392
+        ],
+        [
+          1483,
+          400
+        ],
+        [
+          1483,
+          514
+        ],
+        [
+          352,
+          507
+        ]
+      ],
+      "position": {
+        "x": 352,
+        "y": 392,
+        "width": 1131,
+        "height": 122
+      }
+    },
+    {
+      "text": "This section contains the core emotional properties of each",
+      "confidence": 0.9965493679046631,
+      "bbox": [
+        [
+          340,
+          568
+        ],
+        [
+          1406,
+          573
+        ],
+        [
+          1406,
+          613
+        ],
+        [
+          340,
+          608
+        ]
+      ],
+      "position": {
+        "x": 340,
+        "y": 568,
+        "width": 1066,
+        "height": 45
+      }
+    },
+    {
+      "text": "essential oil. These descriptions briefly summarize the fruits of",
+      "confidence": 0.9883948564529419,
+      "bbox": [
+        [
+          342,
+          626
+        ],
+        [
+          1459,
+          631
+        ],
+        [
+          1459,
+          668
+        ],
+        [
+          342,
+          663
+        ]
+      ],
+      "position": {
+        "x": 342,
+        "y": 626,
+        "width": 1117,
+        "height": 42
+      }
+    },
+    {
+      "text": "our research. The process for determining the focus of each oil",
+      "confidence": 0.9933992624282837,
+      "bbox": [
+        [
+          340,
+          679
+        ],
+        [
+          1466,
+          684
+        ],
+        [
+          1466,
+          723
+        ],
+        [
+          340,
+          718
+        ]
+      ],
+      "position": {
+        "x": 340,
+        "y": 679,
+        "width": 1126,
+        "height": 44
+      }
+    },
+    {
+      "text": "includes gathering research on essential oils (e.g., their botanical",
+      "confidence": 0.9971812963485718,
+      "bbox": [
+        [
+          342,
+          734
+        ],
+        [
+          1493,
+          738
+        ],
+        [
+          1493,
+          775
+        ],
+        [
+          342,
+          771
+        ]
+      ],
+      "position": {
+        "x": 342,
+        "y": 734,
+        "width": 1151,
+        "height": 41
+      }
+    },
+    {
+      "text": "and medicinal properties, plant family characteristics, history,",
+      "confidence": 0.9924949407577515,
+      "bbox": [
+        [
+          340,
+          786
+        ],
+        [
+          1442,
+          794
+        ],
+        [
+          1442,
+          835
+        ],
+        [
+          340,
+          827
+        ]
+      ],
+      "position": {
+        "x": 340,
+        "y": 786,
+        "width": 1102,
+        "height": 49
+      }
+    },
+    {
+      "text": "and cultivation). The characteristics of each oil are also",
+      "confidence": 0.9945600628852844,
+      "bbox": [
+        [
+          341,
+          842
+        ],
+        [
+          1320,
+          846
+        ],
+        [
+          1320,
+          882
+        ],
+        [
+          341,
+          878
+        ]
+      ],
+      "position": {
+        "x": 341,
+        "y": 842,
+        "width": 979,
+        "height": 40
+      }
+    },
+    {
+      "text": "manifested through personal and professional experience. In the",
+      "confidence": 0.994477391242981,
+      "bbox": [
+        [
+          340,
+          894
+        ],
+        [
+          1501,
+          900
+        ],
+        [
+          1501,
+          940
+        ],
+        [
+          340,
+          934
+        ]
+      ],
+      "position": {
+        "x": 340,
+        "y": 894,
+        "width": 1161,
+        "height": 46
+      }
+    },
+    {
+      "text": "final analysis, the representation of each oil has also been guided",
+      "confidence": 0.9920424222946167,
+      "bbox": [
+        [
+          341,
+          949
+        ],
+        [
+          1500,
+          955
+        ],
+        [
+          1500,
+          995
+        ],
+        [
+          341,
+          989
+        ]
+      ],
+      "position": {
+        "x": 341,
+        "y": 949,
+        "width": 1159,
+        "height": 46
+      }
+    },
+    {
+      "text": "and influenced by intuitive and energetic learning.",
+      "confidence": 0.9939791560173035,
+      "bbox": [
+        [
+          341,
+          1003
+        ],
+        [
+          1249,
+          1009
+        ],
+        [
+          1249,
+          1048
+        ],
+        [
+          341,
+          1043
+        ]
+      ],
+      "position": {
+        "x": 341,
+        "y": 1003,
+        "width": 908,
+        "height": 45
+      }
+    },
+    {
+      "text": "Each oil's emotional purpose is summarized in the subtitle,",
+      "confidence": 0.9998372197151184,
+      "bbox": [
+        [
+          339,
+          1094
+        ],
+        [
+          1396,
+          1100
+        ],
+        [
+          1395,
+          1140
+        ],
+        [
+          339,
+          1134
+        ]
+      ],
+      "position": {
+        "x": 339,
+        "y": 1094,
+        "width": 1057,
+        "height": 46
+      }
+    },
+    {
+      "text": "which honors the emotional characteristics most prevalent in",
+      "confidence": 0.9967852830886841,
+      "bbox": [
+        [
+          340,
+          1150
+        ],
+        [
+          1444,
+          1156
+        ],
+        [
+          1444,
+          1192
+        ],
+        [
+          340,
+          1186
+        ]
+      ],
+      "position": {
+        "x": 340,
+        "y": 1150,
+        "width": 1104,
+        "height": 42
+      }
+    },
+    {
+      "text": "the oil. Both positive properties encouraged by the oil and the",
+      "confidence": 0.9867879152297974,
+      "bbox": [
+        [
+          339,
+          1204
+        ],
+        [
+          1440,
+          1208
+        ],
+        [
+          1440,
+          1248
+        ],
+        [
+          339,
+          1244
+        ]
+      ],
+      "position": {
+        "x": 339,
+        "y": 1204,
+        "width": 1101,
+        "height": 44
+      }
+    },
+    {
+      "text": "negative emotions addressed by the oil are listed, as well as",
+      "confidence": 0.9916626214981079,
+      "bbox": [
+        [
+          340,
+          1258
+        ],
+        [
+          1394,
+          1262
+        ],
+        [
+          1394,
+          1302
+        ],
+        [
+          340,
+          1298
+        ]
+      ],
+      "position": {
+        "x": 340,
+        "y": 1258,
+        "width": 1054,
+        "height": 44
+      }
+    },
+    {
+      "text": "companion oils. The companion oils are provided to",
+      "confidence": 0.9958953857421875,
+      "bbox": [
+        [
+          340,
+          1313
+        ],
+        [
+          1279,
+          1316
+        ],
+        [
+          1279,
+          1355
+        ],
+        [
+          340,
+          1353
+        ]
+      ],
+      "position": {
+        "x": 340,
+        "y": 1313,
+        "width": 939,
+        "height": 42
+      }
+    },
+    {
+      "text": "complement the primary properties of the oil. While the",
+      "confidence": 0.9993934035301208,
+      "bbox": [
+        [
+          341,
+          1368
+        ],
+        [
+          1337,
+          1371
+        ],
+        [
+          1337,
+          1408
+        ],
+        [
+          341,
+          1405
+        ]
+      ],
+      "position": {
+        "x": 341,
+        "y": 1368,
+        "width": 996,
+        "height": 40
+      }
+    },
+    {
+      "text": "emotional stories of each person are varied, these",
+      "confidence": 0.9925761222839355,
+      "bbox": [
+        [
+          341,
+          1422
+        ],
+        [
+          1224,
+          1425
+        ],
+        [
+          1224,
+          1462
+        ],
+        [
+          341,
+          1459
+        ]
+      ],
+      "position": {
+        "x": 341,
+        "y": 1422,
+        "width": 883,
+        "height": 40
+      }
+    },
+    {
+      "text": "complementary oils support the core emotional state and",
+      "confidence": 0.9994057416915894,
+      "bbox": [
+        [
+          341,
+          1476
+        ],
+        [
+          1366,
+          1479
+        ],
+        [
+          1365,
+          1516
+        ],
+        [
+          341,
+          1513
+        ]
+      ],
+      "position": {
+        "x": 341,
+        "y": 1476,
+        "width": 1025,
+        "height": 40
+      }
+    },
+    {
+      "text": "provide alternatives for additional research and reflection.",
+      "confidence": 0.9996803402900696,
+      "bbox": [
+        [
+          340,
+          1530
+        ],
+        [
+          1371,
+          1533
+        ],
+        [
+          1370,
+          1570
+        ],
+        [
+          340,
+          1567
+        ]
+      ],
+      "position": {
+        "x": 340,
+        "y": 1530,
+        "width": 1031,
+        "height": 40
+      }
+    },
+    {
+      "text": "You will discover both single and blend descriptions here. Blends",
+      "confidence": 0.9957937598228455,
+      "bbox": [
+        [
+          339,
+          1618
+        ],
+        [
+          1497,
+          1625
+        ],
+        [
+          1497,
+          1664
+        ],
+        [
+          339,
+          1658
+        ]
+      ],
+      "position": {
+        "x": 339,
+        "y": 1618,
+        "width": 1158,
+        "height": 46
+      }
+    },
+    {
+      "text": "are created by combining several single oils to form an entirely",
+      "confidence": 0.989635705947876,
+      "bbox": [
+        [
+          338,
+          1674
+        ],
+        [
+          1462,
+          1680
+        ],
+        [
+          1462,
+          1720
+        ],
+        [
+          338,
+          1714
+        ]
+      ],
+      "position": {
+        "x": 338,
+        "y": 1674,
+        "width": 1124,
+        "height": 46
+      }
+    },
+    {
+      "text": "new synergy greater than the sum of its parts. Oil blends",
+      "confidence": 0.9780463576316833,
+      "bbox": [
+        [
+          339,
+          1732
+        ],
+        [
+          1345,
+          1734
+        ],
+        [
+          1345,
+          1772
+        ],
+        [
+          339,
+          1770
+        ]
+      ],
+      "position": {
+        "x": 339,
+        "y": 1732,
+        "width": 1006,
+        "height": 40
+      }
+    },
+    {
+      "text": "multiply effectiveness to address targeted issues. Blends are",
+      "confidence": 0.9971590638160706,
+      "bbox": [
+        [
+          339,
+          1783
+        ],
+        [
+          1401,
+          1788
+        ],
+        [
+          1401,
+          1825
+        ],
+        [
+          339,
+          1821
+        ]
+      ],
+      "position": {
+        "x": 339,
+        "y": 1783,
+        "width": 1062,
+        "height": 42
+      }
+    },
+    {
+      "text": "formulated to address specific physical or emotional themes or",
+      "confidence": 0.9935247898101807,
+      "bbox": [
+        [
+          338,
+          1837
+        ],
+        [
+          1464,
+          1844
+        ],
+        [
+          1464,
+          1881
+        ],
+        [
+          338,
+          1874
+        ]
+      ],
+      "position": {
+        "x": 338,
+        "y": 1837,
+        "width": 1126,
+        "height": 44
+      }
+    },
+    {
+      "text": "issues, and can assist with your healing by increasing the variety",
+      "confidence": 0.992806613445282,
+      "bbox": [
+        [
+          338,
+          1892
+        ],
+        [
+          1493,
+          1898
+        ],
+        [
+          1493,
+          1936
+        ],
+        [
+          338,
+          1929
+        ]
+      ],
+      "position": {
+        "x": 338,
+        "y": 1892,
+        "width": 1155,
+        "height": 44
+      }
+    },
+    {
+      "text": "of emotional states addressed. While blends are unique from",
+      "confidence": 0.9898663759231567,
+      "bbox": [
+        [
+          339,
+          1944
+        ],
+        [
+          1417,
+          1951
+        ],
+        [
+          1417,
+          1988
+        ],
+        [
+          339,
+          1981
+        ]
+      ],
+      "position": {
+        "x": 339,
+        "y": 1944,
+        "width": 1078,
+        "height": 44
+      }
+    },
+    {
+      "text": "single oils, they are not necessarily superior. Enjoy the insights",
+      "confidence": 0.984198808670044,
+      "bbox": [
+        [
+          339,
+          2001
+        ],
+        [
+          1457,
+          2006
+        ],
+        [
+          1457,
+          2044
+        ],
+        [
+          339,
+          2039
+        ]
+      ],
+      "position": {
+        "x": 339,
+        "y": 2001,
+        "width": 1118,
+        "height": 43
+      }
+    },
+    {
+      "text": "that flow from these descriptions.",
+      "confidence": 0.9858962893486023,
+      "bbox": [
+        [
+          338,
+          2054
+        ],
+        [
+          937,
+          2059
+        ],
+        [
+          937,
+          2096
+        ],
+        [
+          338,
+          2090
+        ]
+      ],
+      "position": {
+        "x": 338,
+        "y": 2054,
+        "width": 599,
+        "height": 42
+      }
+    }
+  ],
+  "full_text": "•m1 OIL DESCRIPTIONS\nThis section contains the core emotional properties of each\nessential oil. These descriptions briefly summarize the fruits of\nour research. The process for determining the focus of each oil\nincludes gathering research on essential oils (e.g., their botanical\nand medicinal properties, plant family characteristics, history,\nand cultivation). The characteristics of each oil are also\nmanifested through personal and professional experience. In the\nfinal analysis, the representation of each oil has also been guided\nand influenced by intuitive and energetic learning.\nEach oil's emotional purpose is summarized in the subtitle,\nwhich honors the emotional characteristics most prevalent in\nthe oil. Both positive properties encouraged by the oil and the\nnegative emotions addressed by the oil are listed, as well as\ncompanion oils. The companion oils are provided to\ncomplement the primary properties of the oil. While the\nemotional stories of each person are varied, these\ncomplementary oils support the core emotional state and\nprovide alternatives for additional research and reflection.\nYou will discover both single and blend descriptions here. Blends\nare created by combining several single oils to form an entirely\nnew synergy greater than the sum of its parts. Oil blends\nmultiply effectiveness to address targeted issues. Blends are\nformulated to address specific physical or emotional themes or\nissues, and can assist with your healing by increasing the variety\nof emotional states addressed. While blends are unique from\nsingle oils, they are not necessarily superior. Enjoy the insights\nthat flow from these descriptions.",
+  "text_block_count": 29,
+  "translated_text": "•m1 油品描述  \n本节包含每种精油的核心情感特性。这些描述简要总结了我们研究的成果。确定每种油的重点的过程包括收集关于精油的研究（例如，它们的植物和药用特性、植物家族特征、历史和栽培）。每种油的特性也通过个人和专业经验得以体现。在最终分析中，每种油的表现也受到直觉和能量学习的指导和影响。  \n每种油的情感目的在副标题中进行了总结，尊重油中最常见的情感特征。列出了油所鼓励的积极特性和油所针对的消极情绪，以及伴随油。伴随油旨在补充油的主要特性。虽然每个人的情感故事各不相同，这些补充油支持核心情感状态，并为进一步的研究和反思提供替代方案。  \n您将在这里发现单一油和混合油的描述。混合油是通过将几种单一油结合在一起形成的全新协同效应，其效果大于其部分之和。油的混合增强了针对特定问题的有效性。混合油被配制以应对特定的身体或情感主题或问题，并可以通过增加所涉及的情感状态的多样性来帮助您的疗愈。虽然混合油与单一油不同，但它们不一定优于单一油。享受这些描述所带来的洞察。"
+}

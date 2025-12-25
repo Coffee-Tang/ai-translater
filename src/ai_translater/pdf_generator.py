@@ -187,34 +187,79 @@ class PDFGenerator:
                     self.page_header_style
                 ))
 
-            # 创建双栏表格
-            original_para = Paragraph(
-                self._escape_html(content.original),
-                self.original_style
-            )
-            translated_para = Paragraph(
-                self._escape_html(content.translated),
-                self.translated_style
-            )
-
-            table = Table(
-                [[original_para, translated_para]],
-                colWidths=[col_width, col_width],
-            )
-            table.setStyle(TableStyle([
-                ("VALIGN", (0, 0), (-1, -1), "TOP"),
-                ("LEFTPADDING", (0, 0), (-1, -1), 5),
-                ("RIGHTPADDING", (0, 0), (-1, -1), 5),
-                ("TOPPADDING", (0, 0), (-1, -1), 5),
-                ("BOTTOMPADDING", (0, 0), (-1, -1), 5),
-                ("LINEBELOW", (0, 0), (-1, -1), 0.5, colors.HexColor("#e0e0e0")),
-            ]))
+            # 将长文本按段落拆分，避免单个表格单元格过大
+            original_paragraphs = self._split_into_paragraphs(content.original)
+            translated_paragraphs = self._split_into_paragraphs(content.translated)
             
-            elements.append(table)
+            # 确保两边段落数量一致
+            max_paras = max(len(original_paragraphs), len(translated_paragraphs))
+            while len(original_paragraphs) < max_paras:
+                original_paragraphs.append("")
+            while len(translated_paragraphs) < max_paras:
+                translated_paragraphs.append("")
+            
+            # 为每对段落创建表格
+            for orig, trans in zip(original_paragraphs, translated_paragraphs):
+                if not orig.strip() and not trans.strip():
+                    continue
+                    
+                original_para = Paragraph(
+                    self._escape_html(orig),
+                    self.original_style
+                )
+                translated_para = Paragraph(
+                    self._escape_html(trans),
+                    self.translated_style
+                )
+
+                table = Table(
+                    [[original_para, translated_para]],
+                    colWidths=[col_width, col_width],
+                )
+                table.setStyle(TableStyle([
+                    ("VALIGN", (0, 0), (-1, -1), "TOP"),
+                    ("LEFTPADDING", (0, 0), (-1, -1), 5),
+                    ("RIGHTPADDING", (0, 0), (-1, -1), 5),
+                    ("TOPPADDING", (0, 0), (-1, -1), 5),
+                    ("BOTTOMPADDING", (0, 0), (-1, -1), 5),
+                    ("LINEBELOW", (0, 0), (-1, -1), 0.5, colors.HexColor("#e0e0e0")),
+                ]))
+                
+                elements.append(table)
+            
             elements.append(Spacer(1, 10))
 
         # 生成PDF
         doc.build(elements)
+
+    def _split_into_paragraphs(self, text: str, max_lines: int = 15) -> List[str]:
+        """将长文本拆分成段落
+        
+        Args:
+            text: 原始文本
+            max_lines: 每段最大行数
+            
+        Returns:
+            段落列表
+        """
+        if not text:
+            return [""]
+        
+        lines = text.split("\n")
+        paragraphs = []
+        current_para = []
+        
+        for line in lines:
+            current_para.append(line)
+            # 如果遇到空行或达到最大行数，开始新段落
+            if not line.strip() or len(current_para) >= max_lines:
+                paragraphs.append("\n".join(current_para))
+                current_para = []
+        
+        if current_para:
+            paragraphs.append("\n".join(current_para))
+        
+        return paragraphs if paragraphs else [""]
 
     def generate_interleaved_pdf(
         self,

@@ -1,0 +1,1242 @@
+{
+  "page": 2,
+  "source_file": "test",
+  "image_file": "page_0028.png",
+  "text_blocks": [
+    {
+      "text": "ABODE",
+      "confidence": 0.9997464418411255,
+      "bbox": [
+        [
+          592,
+          124
+        ],
+        [
+          1020,
+          117
+        ],
+        [
+          1021,
+          221
+        ],
+        [
+          594,
+          228
+        ]
+      ],
+      "position": {
+        "x": 592,
+        "y": 117,
+        "width": 429,
+        "height": 111
+      }
+    },
+    {
+      "text": "TM",
+      "confidence": 0.9983003735542297,
+      "bbox": [
+        [
+          1016,
+          133
+        ],
+        [
+          1037,
+          130
+        ],
+        [
+          1038,
+          141
+        ],
+        [
+          1018,
+          143
+        ]
+      ],
+      "position": {
+        "x": 1016,
+        "y": 130,
+        "width": 22,
+        "height": 13
+      }
+    },
+    {
+      "text": "Accountability",
+      "confidence": 0.9184054732322693,
+      "bbox": [
+        [
+          586,
+          204
+        ],
+        [
+          1043,
+          198
+        ],
+        [
+          1045,
+          344
+        ],
+        [
+          588,
+          350
+        ]
+      ],
+      "position": {
+        "x": 586,
+        "y": 198,
+        "width": 459,
+        "height": 152
+      }
+    },
+    {
+      "text": "Abode® is a powerhouse cleansing blend that works both emotionally",
+      "confidence": 0.9870455265045166,
+      "bbox": [
+        [
+          172,
+          413
+        ],
+        [
+          1437,
+          410
+        ],
+        [
+          1437,
+          450
+        ],
+        [
+          172,
+          453
+        ]
+      ],
+      "position": {
+        "x": 172,
+        "y": 410,
+        "width": 1265,
+        "height": 43
+      }
+    },
+    {
+      "text": "and environmentally. When it's time to make serious changes and",
+      "confidence": 0.9888026118278503,
+      "bbox": [
+        [
+          173,
+          474
+        ],
+        [
+          1376,
+          468
+        ],
+        [
+          1377,
+          509
+        ],
+        [
+          173,
+          515
+        ]
+      ],
+      "position": {
+        "x": 173,
+        "y": 468,
+        "width": 1204,
+        "height": 47
+      }
+    },
+    {
+      "text": "create movement in stagnant situations, this blend throws open the",
+      "confidence": 0.9930914640426636,
+      "bbox": [
+        [
+          173,
+          533
+        ],
+        [
+          1405,
+          528
+        ],
+        [
+          1405,
+          567
+        ],
+        [
+          173,
+          572
+        ]
+      ],
+      "position": {
+        "x": 173,
+        "y": 528,
+        "width": 1232,
+        "height": 44
+      }
+    },
+    {
+      "text": "doors and clears the way. It calls individuals into self-examination",
+      "confidence": 0.9955704808235168,
+      "bbox": [
+        [
+          174,
+          593
+        ],
+        [
+          1376,
+          586
+        ],
+        [
+          1377,
+          622
+        ],
+        [
+          174,
+          629
+        ]
+      ],
+      "position": {
+        "x": 174,
+        "y": 586,
+        "width": 1203,
+        "height": 43
+      }
+    },
+    {
+      "text": "and energetic accountability. It asks them to take an unflinching",
+      "confidence": 0.970579206943512,
+      "bbox": [
+        [
+          173,
+          649
+        ],
+        [
+          1348,
+          644
+        ],
+        [
+          1349,
+          687
+        ],
+        [
+          173,
+          692
+        ]
+      ],
+      "position": {
+        "x": 173,
+        "y": 644,
+        "width": 1176,
+        "height": 48
+      }
+    },
+    {
+      "text": "look at the areas of their life where they have stopped progressing",
+      "confidence": 0.9925220608711243,
+      "bbox": [
+        [
+          171,
+          706
+        ],
+        [
+          1369,
+          703
+        ],
+        [
+          1370,
+          743
+        ],
+        [
+          171,
+          746
+        ]
+      ],
+      "position": {
+        "x": 171,
+        "y": 703,
+        "width": 1199,
+        "height": 43
+      }
+    },
+    {
+      "text": "and determine why. This blend will help inspire them with positive",
+      "confidence": 0.9900901317596436,
+      "bbox": [
+        [
+          175,
+          768
+        ],
+        [
+          1391,
+          763
+        ],
+        [
+          1391,
+          801
+        ],
+        [
+          175,
+          806
+        ]
+      ],
+      "position": {
+        "x": 175,
+        "y": 763,
+        "width": 1216,
+        "height": 43
+      }
+    },
+    {
+      "text": "solutions and support them as they realign their course.",
+      "confidence": 0.9970467686653137,
+      "bbox": [
+        [
+          176,
+          827
+        ],
+        [
+          1192,
+          823
+        ],
+        [
+          1192,
+          859
+        ],
+        [
+          176,
+          863
+        ]
+      ],
+      "position": {
+        "x": 176,
+        "y": 823,
+        "width": 1016,
+        "height": 40
+      }
+    },
+    {
+      "text": "Abode blend is adept at cutting through distraction and distortion.",
+      "confidence": 0.9927816987037659,
+      "bbox": [
+        [
+          175,
+          920
+        ],
+        [
+          1398,
+          915
+        ],
+        [
+          1398,
+          955
+        ],
+        [
+          175,
+          960
+        ]
+      ],
+      "position": {
+        "x": 175,
+        "y": 915,
+        "width": 1223,
+        "height": 45
+      }
+    },
+    {
+      "text": "It helps individuals see where they have engaged in parasitic",
+      "confidence": 0.9945171475410461,
+      "bbox": [
+        [
+          174,
+          980
+        ],
+        [
+          1282,
+          975
+        ],
+        [
+          1282,
+          1014
+        ],
+        [
+          174,
+          1019
+        ]
+      ],
+      "position": {
+        "x": 174,
+        "y": 975,
+        "width": 1108,
+        "height": 44
+      }
+    },
+    {
+      "text": "relationships, codependent behaviors, or succumbed to lower",
+      "confidence": 0.9954478740692139,
+      "bbox": [
+        [
+          175,
+          1038
+        ],
+        [
+          1302,
+          1032
+        ],
+        [
+          1302,
+          1072
+        ],
+        [
+          175,
+          1078
+        ]
+      ],
+      "position": {
+        "x": 175,
+        "y": 1032,
+        "width": 1127,
+        "height": 46
+      }
+    },
+    {
+      "text": "energetic vibrations. It assists them in recognizing how they have",
+      "confidence": 0.9769030213356018,
+      "bbox": [
+        [
+          175,
+          1096
+        ],
+        [
+          1375,
+          1089
+        ],
+        [
+          1376,
+          1133
+        ],
+        [
+          175,
+          1140
+        ]
+      ],
+      "position": {
+        "x": 175,
+        "y": 1089,
+        "width": 1201,
+        "height": 51
+      }
+    },
+    {
+      "text": "contributed to unhealthy dynamics by remaining a victim or",
+      "confidence": 0.991340160369873,
+      "bbox": [
+        [
+          176,
+          1156
+        ],
+        [
+          1286,
+          1150
+        ],
+        [
+          1286,
+          1189
+        ],
+        [
+          176,
+          1195
+        ]
+      ],
+      "position": {
+        "x": 176,
+        "y": 1150,
+        "width": 1110,
+        "height": 45
+      }
+    },
+    {
+      "text": "by overcompensating with manipulation or control. This blend",
+      "confidence": 0.9991301894187927,
+      "bbox": [
+        [
+          177,
+          1215
+        ],
+        [
+          1325,
+          1207
+        ],
+        [
+          1325,
+          1245
+        ],
+        [
+          177,
+          1253
+        ]
+      ],
+      "position": {
+        "x": 177,
+        "y": 1207,
+        "width": 1148,
+        "height": 46
+      }
+    },
+    {
+      "text": "encourages them to release the accumulated toxicity and energetic",
+      "confidence": 0.9879663586616516,
+      "bbox": [
+        [
+          177,
+          1273
+        ],
+        [
+          1402,
+          1265
+        ],
+        [
+          1402,
+          1305
+        ],
+        [
+          177,
+          1314
+        ]
+      ],
+      "position": {
+        "x": 177,
+        "y": 1265,
+        "width": 1225,
+        "height": 49
+      }
+    },
+    {
+      "text": "debris thwarting their goals. It expands their vision and bolsters their",
+      "confidence": 0.9953703284263611,
+      "bbox": [
+        [
+          178,
+          1330
+        ],
+        [
+          1430,
+          1322
+        ],
+        [
+          1430,
+          1361
+        ],
+        [
+          178,
+          1369
+        ]
+      ],
+      "position": {
+        "x": 178,
+        "y": 1322,
+        "width": 1252,
+        "height": 47
+      }
+    },
+    {
+      "text": "resolve so they can recognize and reach for a more empowered way",
+      "confidence": 0.9942077398300171,
+      "bbox": [
+        [
+          177,
+          1389
+        ],
+        [
+          1420,
+          1384
+        ],
+        [
+          1420,
+          1423
+        ],
+        [
+          177,
+          1428
+        ]
+      ],
+      "position": {
+        "x": 177,
+        "y": 1384,
+        "width": 1243,
+        "height": 44
+      }
+    },
+    {
+      "text": "of living. Abode® encourages individuals to take back the helm of their",
+      "confidence": 0.9755606651306152,
+      "bbox": [
+        [
+          178,
+          1448
+        ],
+        [
+          1461,
+          1440
+        ],
+        [
+          1461,
+          1479
+        ],
+        [
+          178,
+          1487
+        ]
+      ],
+      "position": {
+        "x": 178,
+        "y": 1440,
+        "width": 1283,
+        "height": 47
+      }
+    },
+    {
+      "text": "life, reject the path of least resistance, and reclaim their free will.",
+      "confidence": 0.9791133999824524,
+      "bbox": [
+        [
+          178,
+          1506
+        ],
+        [
+          1342,
+          1499
+        ],
+        [
+          1343,
+          1536
+        ],
+        [
+          178,
+          1543
+        ]
+      ],
+      "position": {
+        "x": 178,
+        "y": 1499,
+        "width": 1165,
+        "height": 44
+      }
+    },
+    {
+      "text": "NEGATIVE EMOTIONS:",
+      "confidence": 0.9995638728141785,
+      "bbox": [
+        [
+          848,
+          1605
+        ],
+        [
+          1254,
+          1603
+        ],
+        [
+          1254,
+          1636
+        ],
+        [
+          848,
+          1638
+        ]
+      ],
+      "position": {
+        "x": 848,
+        "y": 1603,
+        "width": 406,
+        "height": 35
+      }
+    },
+    {
+      "text": "SUGGESTED USES:",
+      "confidence": 0.9996591806411743,
+      "bbox": [
+        [
+          184,
+          1608
+        ],
+        [
+          517,
+          1606
+        ],
+        [
+          517,
+          1639
+        ],
+        [
+          184,
+          1641
+        ]
+      ],
+      "position": {
+        "x": 184,
+        "y": 1606,
+        "width": 333,
+        "height": 35
+      }
+    },
+    {
+      "text": "Stagnant, distracted,",
+      "confidence": 0.9998152852058411,
+      "bbox": [
+        [
+          849,
+          1664
+        ],
+        [
+          1212,
+          1661
+        ],
+        [
+          1212,
+          1698
+        ],
+        [
+          849,
+          1701
+        ]
+      ],
+      "position": {
+        "x": 849,
+        "y": 1661,
+        "width": 363,
+        "height": 40
+      }
+    },
+    {
+      "text": "Aromatic: Inhale from",
+      "confidence": 0.9997884035110474,
+      "bbox": [
+        [
+          183,
+          1667
+        ],
+        [
+          599,
+          1665
+        ],
+        [
+          600,
+          1699
+        ],
+        [
+          183,
+          1701
+        ]
+      ],
+      "position": {
+        "x": 183,
+        "y": 1665,
+        "width": 417,
+        "height": 36
+      }
+    },
+    {
+      "text": "codependent, victim,",
+      "confidence": 0.9950218200683594,
+      "bbox": [
+        [
+          848,
+          1722
+        ],
+        [
+          1227,
+          1718
+        ],
+        [
+          1227,
+          1759
+        ],
+        [
+          849,
+          1763
+        ]
+      ],
+      "position": {
+        "x": 848,
+        "y": 1718,
+        "width": 379,
+        "height": 45
+      }
+    },
+    {
+      "text": "bottle, diffuse, or place drops",
+      "confidence": 0.9997900128364563,
+      "bbox": [
+        [
+          184,
+          1724
+        ],
+        [
+          708,
+          1724
+        ],
+        [
+          708,
+          1761
+        ],
+        [
+          184,
+          1761
+        ]
+      ],
+      "position": {
+        "x": 184,
+        "y": 1724,
+        "width": 524,
+        "height": 37
+      }
+    },
+    {
+      "text": "manipulating, controlling,",
+      "confidence": 0.9989851713180542,
+      "bbox": [
+        [
+          849,
+          1780
+        ],
+        [
+          1318,
+          1777
+        ],
+        [
+          1318,
+          1818
+        ],
+        [
+          849,
+          1820
+        ]
+      ],
+      "position": {
+        "x": 849,
+        "y": 1777,
+        "width": 469,
+        "height": 43
+      }
+    },
+    {
+      "text": "in hand, rub, and inhale.",
+      "confidence": 0.9806129336357117,
+      "bbox": [
+        [
+          183,
+          1783
+        ],
+        [
+          631,
+          1780
+        ],
+        [
+          632,
+          1818
+        ],
+        [
+          183,
+          1820
+        ]
+      ],
+      "position": {
+        "x": 183,
+        "y": 1780,
+        "width": 449,
+        "height": 40
+      }
+    },
+    {
+      "text": "unmindful",
+      "confidence": 0.9999644160270691,
+      "bbox": [
+        [
+          847,
+          1838
+        ],
+        [
+          1047,
+          1835
+        ],
+        [
+          1048,
+          1873
+        ],
+        [
+          848,
+          1876
+        ]
+      ],
+      "position": {
+        "x": 847,
+        "y": 1835,
+        "width": 201,
+        "height": 41
+      }
+    },
+    {
+      "text": "Environmental: Add several",
+      "confidence": 0.9993393421173096,
+      "bbox": [
+        [
+          185,
+          1878
+        ],
+        [
+          705,
+          1877
+        ],
+        [
+          705,
+          1912
+        ],
+        [
+          185,
+          1913
+        ]
+      ],
+      "position": {
+        "x": 185,
+        "y": 1877,
+        "width": 520,
+        "height": 36
+      }
+    },
+    {
+      "text": "POSITIVE PROPERTIES:",
+      "confidence": 0.9995404481887817,
+      "bbox": [
+        [
+          852,
+          1933
+        ],
+        [
+          1267,
+          1929
+        ],
+        [
+          1267,
+          1966
+        ],
+        [
+          852,
+          1969
+        ]
+      ],
+      "position": {
+        "x": 852,
+        "y": 1929,
+        "width": 415,
+        "height": 40
+      }
+    },
+    {
+      "text": "drops into spray bottle and",
+      "confidence": 0.994947075843811,
+      "bbox": [
+        [
+          186,
+          1938
+        ],
+        [
+          673,
+          1935
+        ],
+        [
+          673,
+          1973
+        ],
+        [
+          186,
+          1975
+        ]
+      ],
+      "position": {
+        "x": 186,
+        "y": 1935,
+        "width": 487,
+        "height": 40
+      }
+    },
+    {
+      "text": "Accountable, self-aware,",
+      "confidence": 0.999741792678833,
+      "bbox": [
+        [
+          853,
+          1992
+        ],
+        [
+          1298,
+          1992
+        ],
+        [
+          1298,
+          2029
+        ],
+        [
+          853,
+          2029
+        ]
+      ],
+      "position": {
+        "x": 853,
+        "y": 1992,
+        "width": 445,
+        "height": 37
+      }
+    },
+    {
+      "text": "mist around home.",
+      "confidence": 0.9781088829040527,
+      "bbox": [
+        [
+          184,
+          1996
+        ],
+        [
+          537,
+          1993
+        ],
+        [
+          537,
+          2030
+        ],
+        [
+          184,
+          2033
+        ]
+      ],
+      "position": {
+        "x": 184,
+        "y": 1993,
+        "width": 353,
+        "height": 40
+      }
+    },
+    {
+      "text": "progressing, realigned,",
+      "confidence": 0.9993135333061218,
+      "bbox": [
+        [
+          851,
+          2055
+        ],
+        [
+          1269,
+          2049
+        ],
+        [
+          1269,
+          2086
+        ],
+        [
+          852,
+          2093
+        ]
+      ],
+      "position": {
+        "x": 851,
+        "y": 2049,
+        "width": 418,
+        "height": 44
+      }
+    },
+    {
+      "text": "INGREDIENTS: Lime, Litsea,",
+      "confidence": 0.9966987371444702,
+      "bbox": [
+        [
+          187,
+          2090
+        ],
+        [
+          684,
+          2090
+        ],
+        [
+          684,
+          2126
+        ],
+        [
+          187,
+          2126
+        ]
+      ],
+      "position": {
+        "x": 187,
+        "y": 2090,
+        "width": 497,
+        "height": 36
+      }
+    },
+    {
+      "text": "empowered, independent",
+      "confidence": 0.9987983107566833,
+      "bbox": [
+        [
+          852,
+          2112
+        ],
+        [
+          1324,
+          2107
+        ],
+        [
+          1325,
+          2144
+        ],
+        [
+          853,
+          2149
+        ]
+      ],
+      "position": {
+        "x": 852,
+        "y": 2107,
+        "width": 473,
+        "height": 42
+      }
+    },
+    {
+      "text": "Cassia, Lemon Eucalyptus,",
+      "confidence": 0.999235987663269,
+      "bbox": [
+        [
+          185,
+          2146
+        ],
+        [
+          682,
+          2148
+        ],
+        [
+          682,
+          2189
+        ],
+        [
+          185,
+          2187
+        ]
+      ],
+      "position": {
+        "x": 185,
+        "y": 2146,
+        "width": 497,
+        "height": 43
+      }
+    },
+    {
+      "text": "Tea Tree, Arborvitae,",
+      "confidence": 0.9998241662979126,
+      "bbox": [
+        [
+          186,
+          2208
+        ],
+        [
+          571,
+          2208
+        ],
+        [
+          571,
+          2245
+        ],
+        [
+          186,
+          2245
+        ]
+      ],
+      "position": {
+        "x": 186,
+        "y": 2208,
+        "width": 385,
+        "height": 37
+      }
+    },
+    {
+      "text": "Eucalyptus, Cilantro,",
+      "confidence": 0.9987202882766724,
+      "bbox": [
+        [
+          186,
+          2263
+        ],
+        [
+          572,
+          2261
+        ],
+        [
+          572,
+          2299
+        ],
+        [
+          186,
+          2301
+        ]
+      ],
+      "position": {
+        "x": 186,
+        "y": 2261,
+        "width": 386,
+        "height": 40
+      }
+    },
+    {
+      "text": "Lavandin, Lemon Myrtle",
+      "confidence": 0.9897921085357666,
+      "bbox": [
+        [
+          185,
+          2320
+        ],
+        [
+          643,
+          2317
+        ],
+        [
+          644,
+          2357
+        ],
+        [
+          185,
+          2360
+        ]
+      ],
+      "position": {
+        "x": 185,
+        "y": 2317,
+        "width": 459,
+        "height": 43
+      }
+    },
+    {
+      "text": "17",
+      "confidence": 0.9999870657920837,
+      "bbox": [
+        [
+          185,
+          2424
+        ],
+        [
+          231,
+          2424
+        ],
+        [
+          231,
+          2465
+        ],
+        [
+          185,
+          2465
+        ]
+      ],
+      "position": {
+        "x": 185,
+        "y": 2424,
+        "width": 46,
+        "height": 41
+      }
+    }
+  ],
+  "full_text": "ABODE TM\nAccountability\nAbode® is a powerhouse cleansing blend that works both emotionally\nand environmentally. When it's time to make serious changes and\ncreate movement in stagnant situations, this blend throws open the\ndoors and clears the way. It calls individuals into self-examination\nand energetic accountability. It asks them to take an unflinching\nlook at the areas of their life where they have stopped progressing\nand determine why. This blend will help inspire them with positive\nsolutions and support them as they realign their course.\nAbode blend is adept at cutting through distraction and distortion.\nIt helps individuals see where they have engaged in parasitic\nrelationships, codependent behaviors, or succumbed to lower\nenergetic vibrations. It assists them in recognizing how they have\ncontributed to unhealthy dynamics by remaining a victim or\nby overcompensating with manipulation or control. This blend\nencourages them to release the accumulated toxicity and energetic\ndebris thwarting their goals. It expands their vision and bolsters their\nresolve so they can recognize and reach for a more empowered way\nof living. Abode® encourages individuals to take back the helm of their\nlife, reject the path of least resistance, and reclaim their free will.\nSUGGESTED USES: NEGATIVE EMOTIONS:\nAromatic: Inhale from Stagnant, distracted,\nbottle, diffuse, or place drops codependent, victim,\nin hand, rub, and inhale. manipulating, controlling,\nunmindful\nEnvironmental: Add several\ndrops into spray bottle and POSITIVE PROPERTIES:\nmist around home. Accountable, self-aware,\nprogressing, realigned,\nINGREDIENTS: Lime, Litsea, empowered, independent\nCassia, Lemon Eucalyptus,\nTea Tree, Arborvitae,\nEucalyptus, Cilantro,\nLavandin, Lemon Myrtle\n17",
+  "text_block_count": 44,
+  "translated_text": "ABODE TM  \n责任感  \nAbode® 是一种强效清洁混合油，既在情感上也在环境上发挥作用。当是时候进行重大改变并在停滞的情况下创造动能时，这种混合油会打开大门，清理道路。它呼唤个人进行自我审视和能量责任感。它要求他们毫不犹豫地审视生活中停滞不前的领域，并确定原因。这种混合油将帮助激励他们找到积极的解决方案，并在他们重新调整方向时给予支持。  \nAbode 混合油擅长穿透干扰和扭曲。它帮助个人看到自己在寄生关系、共依赖行为中所参与的地方，或屈服于较低的能量振动。它帮助他们认识到自己通过保持受害者身份或通过操控或控制过度补偿而对不健康动态的贡献。该混合油鼓励他们释放积累的毒素和能量碎片，阻碍他们的目标。它扩展了他们的视野，增强了他们的决心，使他们能够认识并追求更有力量的生活方式。Abode® 鼓励个人重新掌控自己的生活，拒绝最小阻力的道路，重新获得自由意志。  \n建议用途：  \n消极情绪：  \n芳香：从瓶中吸入、扩散或将几滴放在手中，搓揉后吸入。  \n环境：将几滴加入喷雾瓶中，喷雾于家中。  \n积极特性：  \n负责任、自我意识、  \n进步、重新调整、  \n赋权、独立  \n\n成分：  \n青柠、香蜂草、  \n肉桂、柠檬桉、  \n茶树、柏树、  \n桉树、香菜、  \n薰衣草、柠檬香桃木"
+}
