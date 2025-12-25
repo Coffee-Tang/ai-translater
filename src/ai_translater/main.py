@@ -123,8 +123,12 @@ def cmd_ocr(args):
 
 # ============== 步骤3: 翻译 ==============
 
+# 页面分隔标记
+PAGE_SEPARATOR = "\n\n---PAGE_BREAK---\n\n"
+
+
 def cmd_translate(args):
-    """执行翻译"""
+    """执行翻译 - 全文合并翻译，保持跨页句子完整性"""
     load_dotenv()
     
     input_dir = Path(args.input_dir)
@@ -141,6 +145,30 @@ def cmd_translate(args):
         print("❌ 未找到OCR结果文件", file=sys.stderr)
         sys.exit(1)
     
+    # 读取所有OCR结果
+    ocr_data_list = []
+    page_texts = []
+    
+    for json_file in json_files:
+        with open(json_file, "r", encoding="utf-8") as f:
+            ocr_data = json.load(f)
+        ocr_data_list.append((json_file, ocr_data))
+        page_texts.append(ocr_data.get("full_text", "").strip())
+    
+    # 合并所有页面文本
+    merged_text = PAGE_SEPARATOR.join(page_texts)
+    
+    if not merged_text.strip():
+        if not args.quiet:
+            print("⚠️ 没有找到需要翻译的文本")
+        # 保存空结果
+        for json_file, ocr_data in ocr_data_list:
+            translation_data = {**ocr_data, "translated_text": ""}
+            output_file = output_dir / json_file.name
+            with open(output_file, "w", encoding="utf-8") as f:
+                json.dump(translation_data, f, ensure_ascii=False, indent=2)
+        return
+    
     # 初始化翻译器
     translator = Translator(
         api_key=args.api_key,
@@ -149,29 +177,31 @@ def cmd_translate(args):
     )
     
     if not args.quiet:
-        print(f"🌐 正在翻译 ({len(json_files)} 个文件)...")
+        print(f"🌐 正在翻译 ({len(json_files)} 页，全文合并模式)...")
     
-    for i, json_file in enumerate(json_files):
-        if not args.quiet:
-            print(f"   翻译第 {i + 1}/{len(json_files)} 页: {json_file.name}")
+    # 全文翻译（带页面分隔标记）
+    translated_text = translate_with_page_breaks(
+        translator, 
+        merged_text, 
+        len(json_files),
+        verbose=not args.quiet
+    )
+    
+    # 按标记拆分翻译结果
+    translated_pages = translated_text.split("---PAGE_BREAK---")
+    translated_pages = [p.strip() for p in translated_pages]
+    
+    # 确保页数匹配
+    while len(translated_pages) < len(json_files):
+        translated_pages.append("")
+    
+    # 保存翻译结果
+    for i, (json_file, ocr_data) in enumerate(ocr_data_list):
+        translated = translated_pages[i] if i < len(translated_pages) else ""
         
-        # 读取OCR结果
-        with open(json_file, "r", encoding="utf-8") as f:
-            ocr_data = json.load(f)
-        
-        full_text = ocr_data.get("full_text", "")
-        
-        if not full_text.strip():
-            translated_text = ""
-        else:
-            # 翻译
-            result = translator.translate_paragraphs(full_text)
-            translated_text = result.translated
-        
-        # 保存翻译结果
         translation_data = {
             **ocr_data,
-            "translated_text": translated_text,
+            "translated_text": translated,
         }
         
         output_file = output_dir / json_file.name
@@ -180,6 +210,81 @@ def cmd_translate(args):
     
     if not args.quiet:
         print(f"✅ 翻译结果已保存到 {output_dir}")
+
+
+def translate_with_page_breaks(
+    translator: Translator,
+    text: str,
+    page_count: int,
+    max_chars_per_batch: int = 8000,
+    verbose: bool = True,
+) -> str:
+    """翻译带页面分隔标记的文本
+    
+    Args:
+        translator: 翻译器实例
+        text: 带PAGE_BREAK标记的合并文本
+        page_count: 页数
+        max_chars_per_batch: 每批最大字符数
+        verbose: 是否输出详细信息
+        
+    Returns:
+        翻译后的文本（保留PAGE_BREAK标记）
+    """
+    # 构建特殊的翻译提示
+    context = f"""This is a document with {page_count} pages. 
+Pages are separated by "---PAGE_BREAK---" markers.
+IMPORTANT: You must preserve all "---PAGE_BREAK---" markers in your translation exactly as they appear.
+Translate the content between markers while keeping the markers intact."""
+    
+    # 如果文本不太长，直接翻译
+    if len(text) <= max_chars_per_batch:
+        if verbose:
+            print(f"   翻译全文 ({len(text)} 字符)...")
+        result = translator.translate(text, context=context)
+        return result.translated
+    
+    # 文本太长，按页面分隔标记分批翻译
+    if verbose:
+        print(f"   文本较长 ({len(text)} 字符)，分批翻译...")
+    
+    pages = text.split(PAGE_SEPARATOR)
+    translated_pages = []
+    
+    current_batch = []
+    current_length = 0
+    
+    for i, page in enumerate(pages):
+        page_length = len(page) + len(PAGE_SEPARATOR)
+        
+        # 如果当前批次加上这页会超过限制，先翻译当前批次
+        if current_length + page_length > max_chars_per_batch and current_batch:
+            batch_text = PAGE_SEPARATOR.join(current_batch)
+            if verbose:
+                print(f"   翻译批次 ({len(current_batch)} 页)...")
+            result = translator.translate(batch_text, context=context)
+            
+            # 拆分翻译结果
+            batch_translated = result.translated.split("---PAGE_BREAK---")
+            translated_pages.extend([p.strip() for p in batch_translated])
+            
+            current_batch = []
+            current_length = 0
+        
+        current_batch.append(page)
+        current_length += page_length
+    
+    # 翻译最后一批
+    if current_batch:
+        batch_text = PAGE_SEPARATOR.join(current_batch)
+        if verbose:
+            print(f"   翻译批次 ({len(current_batch)} 页)...")
+        result = translator.translate(batch_text, context=context)
+        
+        batch_translated = result.translated.split("---PAGE_BREAK---")
+        translated_pages.extend([p.strip() for p in batch_translated])
+    
+    return "\n\n---PAGE_BREAK---\n\n".join(translated_pages)
 
 
 # ============== 步骤4: 生成PDF ==============
@@ -312,9 +417,9 @@ def cmd_all(args):
         with open(output_file, "w", encoding="utf-8") as f:
             json.dump(page_data, f, ensure_ascii=False, indent=2)
     
-    # 步骤3: 翻译
+    # 步骤3: 翻译（全文合并模式）
     if verbose:
-        print("\n🌐 [3/4] 正在翻译...")
+        print("\n🌐 [3/4] 正在翻译（全文合并模式）...")
     
     translator = Translator(
         api_key=args.api_key,
@@ -324,24 +429,45 @@ def cmd_all(args):
     
     json_files = sorted(ocr_dir.glob("*.json"))
     
-    for i, json_file in enumerate(json_files):
+    # 读取所有OCR结果
+    ocr_data_list = []
+    page_texts = []
+    
+    for json_file in json_files:
         with open(json_file, "r", encoding="utf-8") as f:
             ocr_data = json.load(f)
+        ocr_data_list.append((json_file, ocr_data))
+        page_texts.append(ocr_data.get("full_text", "").strip())
+    
+    # 合并所有页面文本
+    merged_text = PAGE_SEPARATOR.join(page_texts)
+    
+    if merged_text.strip():
+        # 全文翻译
+        translated_text = translate_with_page_breaks(
+            translator, 
+            merged_text, 
+            len(json_files),
+            verbose=verbose
+        )
         
-        full_text = ocr_data.get("full_text", "")
-        
-        if verbose:
-            print(f"   翻译第 {i + 1}/{len(json_files)} 页...")
-        
-        if not full_text.strip():
-            translated_text = ""
-        else:
-            result = translator.translate_paragraphs(full_text)
-            translated_text = result.translated
+        # 按标记拆分翻译结果
+        translated_pages = translated_text.split("---PAGE_BREAK---")
+        translated_pages = [p.strip() for p in translated_pages]
+    else:
+        translated_pages = [""] * len(json_files)
+    
+    # 确保页数匹配
+    while len(translated_pages) < len(json_files):
+        translated_pages.append("")
+    
+    # 保存翻译结果
+    for i, (json_file, ocr_data) in enumerate(ocr_data_list):
+        translated = translated_pages[i] if i < len(translated_pages) else ""
         
         translation_data = {
             **ocr_data,
-            "translated_text": translated_text,
+            "translated_text": translated,
         }
         
         output_file = translations_dir / json_file.name
