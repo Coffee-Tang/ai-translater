@@ -1,4 +1,12 @@
-"""主入口模块 - PDF OCR翻译工具"""
+"""主入口模块 - PDF OCR翻译工具
+
+支持分步执行：
+1. extract: PDF转图片
+2. ocr: 图片OCR识别
+3. translate: 翻译OCR结果
+4. generate: 生成双语PDF
+5. all: 完整流程
+"""
 
 import argparse
 import json
@@ -10,7 +18,7 @@ from typing import List, Optional
 
 from dotenv import load_dotenv
 
-from .ocr_engine import OCREngine, PageOCRResult
+from .ocr_engine import OCREngine, PageOCRResult, TextBlock
 from .pdf_extractor import PDFExtractor
 from .pdf_generator import BilingualContent, PDFGenerator
 from .translator import Translator
@@ -23,357 +31,476 @@ class OutputFormat(str, Enum):
     TRANSLATION_ONLY = "translation"  # 仅译文
 
 
-class PDFTranslator:
-    """PDF翻译器 - 整合所有模块的主类"""
+# ============== 步骤1: 提取图片 ==============
 
-    def __init__(
-        self,
-        openai_api_key: Optional[str] = None,
-        openai_base_url: Optional[str] = None,
-        openai_model: Optional[str] = None,
-        source_lang: str = "English",
-        target_lang: str = "Chinese",
-        ocr_lang: str = "en",
-        dpi: int = 300,
-    ):
-        """初始化PDF翻译器
+def cmd_extract(args):
+    """执行PDF提取图片"""
+    load_dotenv()
+    
+    input_pdf = Path(args.input)
+    output_dir = Path(args.output_dir)
+    
+    if not args.quiet:
+        print(f"📄 正在处理: {input_pdf}")
+    
+    # 解析页面范围
+    page_range = parse_page_range(args.pages)
+    
+    # 提取图片
+    extractor = PDFExtractor(dpi=args.dpi)
+    
+    if not args.quiet:
+        print("🖼️  正在提取PDF页面...")
+    
+    images = extractor.extract_pages(input_pdf, output_dir=output_dir, page_range=page_range)
+    
+    if not args.quiet:
+        print(f"✅ 提取了 {len(images)} 页到 {output_dir}")
+
+
+# ============== 步骤2: OCR识别 ==============
+
+def cmd_ocr(args):
+    """执行OCR识别"""
+    load_dotenv()
+    
+    input_dir = Path(args.input_dir)
+    output_dir = Path(args.output_dir)
+    output_dir.mkdir(parents=True, exist_ok=True)
+    
+    if not args.quiet:
+        print(f"📂 输入目录: {input_dir}")
+    
+    # 获取所有图片文件
+    image_files = sorted(input_dir.glob("*.png")) + sorted(input_dir.glob("*.jpg"))
+    
+    if not image_files:
+        print("❌ 未找到图片文件", file=sys.stderr)
+        sys.exit(1)
+    
+    if not args.quiet:
+        print(f"🔍 正在进行OCR识别 ({len(image_files)} 张图片)...")
+    
+    # OCR识别
+    ocr = OCREngine(lang=args.lang)
+    
+    for i, img_path in enumerate(image_files):
+        if not args.quiet:
+            print(f"   识别第 {i + 1}/{len(image_files)} 张: {img_path.name}")
         
-        Args:
-            openai_api_key: OpenAI API密钥
-            openai_base_url: OpenAI API基础URL
-            openai_model: 使用的模型
-            source_lang: 源语言
-            target_lang: 目标语言
-            ocr_lang: OCR识别语言
-            dpi: PDF转图片的DPI
-        """
-        # 加载环境变量
-        load_dotenv()
+        result = ocr.recognize(str(img_path), page_num=i)
         
-        # 初始化各模块
-        self.extractor = PDFExtractor(dpi=dpi)
-        self.ocr = OCREngine(lang=ocr_lang)
-        self.translator = Translator(
-            api_key=openai_api_key,
-            base_url=openai_base_url,
-            model=openai_model,
-            source_lang=source_lang,
-            target_lang=target_lang,
-        )
-        self.generator = PDFGenerator()
-
-    def process(
-        self,
-        input_pdf: str | Path,
-        output_pdf: str | Path,
-        output_format: OutputFormat = OutputFormat.DUAL_COLUMN,
-        title: Optional[str] = None,
-        page_range: Optional[tuple[int, int]] = None,
-        ocr_output_dir: Optional[str | Path] = None,
-        verbose: bool = True,
-    ) -> None:
-        """处理PDF文件
-        
-        Args:
-            input_pdf: 输入PDF路径
-            output_pdf: 输出PDF路径
-            output_format: 输出格式
-            title: 文档标题
-            page_range: 页面范围
-            ocr_output_dir: OCR结果保存目录，每页生成独立JSON文件
-            verbose: 是否输出详细信息
-        """
-        input_pdf = Path(input_pdf)
-        output_pdf = Path(output_pdf)
-
-        if verbose:
-            print(f"📄 正在处理: {input_pdf}")
-
-        # 1. 提取PDF页面为图片
-        if verbose:
-            print("🖼️  正在提取PDF页面...")
-        images = self.extractor.extract_pages(input_pdf, page_range=page_range)
-        
-        if verbose:
-            print(f"   提取了 {len(images)} 页")
-
-        # 2. OCR识别
-        if verbose:
-            print("🔍 正在进行OCR识别...")
-        ocr_results = self._perform_ocr(images, verbose)
-
-        # 2.5 保存OCR结果到JSON文件（如果指定了输出目录）
-        if ocr_output_dir:
-            if verbose:
-                print("💾 正在保存OCR结果...")
-            self._save_ocr_results(ocr_results, ocr_output_dir, input_pdf.stem, verbose)
-
-        # 3. 翻译
-        if verbose:
-            print("🌐 正在翻译...")
-        bilingual_contents = self._translate(ocr_results, verbose)
-
-        # 4. 生成PDF
-        if verbose:
-            print("📝 正在生成双语PDF...")
-        self._generate_pdf(
-            bilingual_contents,
-            output_pdf,
-            output_format,
-            title,
-        )
-
-        if verbose:
-            print(f"✅ 完成！输出文件: {output_pdf}")
-
-    def _perform_ocr(
-        self,
-        images: list,
-        verbose: bool = True,
-    ) -> List[PageOCRResult]:
-        """对图片进行OCR识别"""
-        results = []
-        for i, img in enumerate(images):
-            if verbose:
-                print(f"   识别第 {i + 1}/{len(images)} 页...")
-            result = self.ocr.recognize(img, page_num=i)
-            results.append(result)
-        return results
-
-    def _save_ocr_results(
-        self,
-        ocr_results: List[PageOCRResult],
-        output_dir: str | Path,
-        pdf_name: str,
-        verbose: bool = True,
-    ) -> None:
-        """保存OCR结果到JSON文件，每页一个文件
-        
-        Args:
-            ocr_results: OCR识别结果列表
-            output_dir: 输出目录
-            pdf_name: PDF文件名（不含扩展名）
-            verbose: 是否输出详细信息
-        """
-        output_dir = Path(output_dir)
-        output_dir.mkdir(parents=True, exist_ok=True)
-        
-        for result in ocr_results:
-            page_num = result.page_num + 1  # 转为1-based页码
-            
-            # 构建JSON数据
-            page_data = {
-                "page": page_num,
-                "source_file": pdf_name,
-                "text_blocks": [
-                    {
-                        "text": block.text,
-                        "confidence": block.confidence,
-                        "bbox": block.bbox,
-                        "position": {
-                            "x": block.x,
-                            "y": block.y,
-                            "width": block.width,
-                            "height": block.height,
-                        }
+        # 保存结果
+        page_data = {
+            "page": i + 1,
+            "source_file": img_path.stem,
+            "image_file": img_path.name,
+            "text_blocks": [
+                {
+                    "text": block.text,
+                    "confidence": block.confidence,
+                    "bbox": block.bbox,
+                    "position": {
+                        "x": block.x,
+                        "y": block.y,
+                        "width": block.width,
+                        "height": block.height,
                     }
-                    for block in result.text_blocks
-                ],
-                "full_text": result.full_text,
-                "text_block_count": len(result.text_blocks),
-            }
-            
-            # 保存到文件
-            output_file = output_dir / f"{pdf_name}_page_{page_num:04d}.json"
-            with open(output_file, "w", encoding="utf-8") as f:
-                json.dump(page_data, f, ensure_ascii=False, indent=2)
-            
-            if verbose:
-                print(f"   保存第 {page_num} 页 -> {output_file.name}")
-
-    def _translate(
-        self,
-        ocr_results: List[PageOCRResult],
-        verbose: bool = True,
-    ) -> List[BilingualContent]:
-        """翻译OCR结果"""
-        contents = []
-        for result in ocr_results:
-            if not result.has_text:
-                continue
-                
-            if verbose:
-                print(f"   翻译第 {result.page_num + 1} 页...")
-            
-            # 翻译整页文本
-            translation = self.translator.translate_paragraphs(result.full_text)
-            
-            contents.append(BilingualContent(
-                original=result.full_text,
-                translated=translation.translated,
-                page_num=result.page_num,
-            ))
+                }
+                for block in result.text_blocks
+            ],
+            "full_text": result.full_text,
+            "text_block_count": len(result.text_blocks),
+        }
         
-        return contents
+        output_file = output_dir / f"page_{i + 1:04d}.json"
+        with open(output_file, "w", encoding="utf-8") as f:
+            json.dump(page_data, f, ensure_ascii=False, indent=2)
+    
+    if not args.quiet:
+        print(f"✅ OCR结果已保存到 {output_dir}")
 
-    def _generate_pdf(
-        self,
-        contents: List[BilingualContent],
-        output_path: Path,
-        output_format: OutputFormat,
-        title: Optional[str],
-    ) -> None:
-        """生成PDF文件"""
-        if output_format == OutputFormat.DUAL_COLUMN:
-            self.generator.generate_dual_column_pdf(contents, output_path, title)
-        elif output_format == OutputFormat.INTERLEAVED:
-            self.generator.generate_interleaved_pdf(contents, output_path, title)
+
+# ============== 步骤3: 翻译 ==============
+
+def cmd_translate(args):
+    """执行翻译"""
+    load_dotenv()
+    
+    input_dir = Path(args.input_dir)
+    output_dir = Path(args.output_dir)
+    output_dir.mkdir(parents=True, exist_ok=True)
+    
+    if not args.quiet:
+        print(f"📂 输入目录: {input_dir}")
+    
+    # 获取所有OCR结果文件
+    json_files = sorted(input_dir.glob("*.json"))
+    
+    if not json_files:
+        print("❌ 未找到OCR结果文件", file=sys.stderr)
+        sys.exit(1)
+    
+    # 初始化翻译器
+    translator = Translator(
+        api_key=args.api_key,
+        base_url=args.base_url,
+        model=args.model,
+    )
+    
+    if not args.quiet:
+        print(f"🌐 正在翻译 ({len(json_files)} 个文件)...")
+    
+    for i, json_file in enumerate(json_files):
+        if not args.quiet:
+            print(f"   翻译第 {i + 1}/{len(json_files)} 页: {json_file.name}")
+        
+        # 读取OCR结果
+        with open(json_file, "r", encoding="utf-8") as f:
+            ocr_data = json.load(f)
+        
+        full_text = ocr_data.get("full_text", "")
+        
+        if not full_text.strip():
+            translated_text = ""
         else:
-            self.generator.generate_translation_only_pdf(contents, output_path, title)
+            # 翻译
+            result = translator.translate_paragraphs(full_text)
+            translated_text = result.translated
+        
+        # 保存翻译结果
+        translation_data = {
+            **ocr_data,
+            "translated_text": translated_text,
+        }
+        
+        output_file = output_dir / json_file.name
+        with open(output_file, "w", encoding="utf-8") as f:
+            json.dump(translation_data, f, ensure_ascii=False, indent=2)
+    
+    if not args.quiet:
+        print(f"✅ 翻译结果已保存到 {output_dir}")
 
-    def extract_text(
-        self,
-        input_pdf: str | Path,
-        output_file: Optional[str | Path] = None,
-        page_range: Optional[tuple[int, int]] = None,
-    ) -> str:
-        """仅提取PDF中的文本
-        
-        Args:
-            input_pdf: 输入PDF路径
-            output_file: 可选的输出文本文件路径
-            page_range: 页面范围
-            
-        Returns:
-            提取的文本
-        """
-        images = self.extractor.extract_pages(input_pdf, page_range=page_range)
-        ocr_results = self.ocr.recognize_batch(images)
-        
-        full_text = "\n\n".join(
-            f"--- 第 {r.page_num + 1} 页 ---\n{r.full_text}"
-            for r in ocr_results
-            if r.has_text
-        )
-        
-        if output_file:
-            Path(output_file).write_text(full_text, encoding="utf-8")
-        
-        return full_text
 
+# ============== 步骤4: 生成PDF ==============
+
+def cmd_generate(args):
+    """生成双语PDF"""
+    load_dotenv()
+    
+    input_dir = Path(args.input_dir)
+    output_pdf = Path(args.output)
+    
+    if not args.quiet:
+        print(f"📂 输入目录: {input_dir}")
+    
+    # 获取所有翻译结果文件
+    json_files = sorted(input_dir.glob("*.json"))
+    
+    if not json_files:
+        print("❌ 未找到翻译结果文件", file=sys.stderr)
+        sys.exit(1)
+    
+    # 读取翻译结果
+    contents: List[BilingualContent] = []
+    
+    for json_file in json_files:
+        with open(json_file, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        
+        original = data.get("full_text", "")
+        translated = data.get("translated_text", "")
+        page_num = data.get("page", 1) - 1  # 转为0-based
+        
+        if original or translated:
+            contents.append(BilingualContent(
+                original=original,
+                translated=translated,
+                page_num=page_num,
+            ))
+    
+    if not args.quiet:
+        print(f"📝 正在生成双语PDF ({len(contents)} 页)...")
+    
+    # 生成PDF
+    generator = PDFGenerator()
+    output_format = OutputFormat(args.format)
+    
+    if output_format == OutputFormat.DUAL_COLUMN:
+        generator.generate_dual_column_pdf(contents, output_pdf, args.title)
+    elif output_format == OutputFormat.INTERLEAVED:
+        generator.generate_interleaved_pdf(contents, output_pdf, args.title)
+    else:
+        generator.generate_translation_only_pdf(contents, output_pdf, args.title)
+    
+    if not args.quiet:
+        print(f"✅ PDF已生成: {output_pdf}")
+
+
+# ============== 步骤5: 完整流程 ==============
+
+def cmd_all(args):
+    """执行完整流程"""
+    load_dotenv()
+    
+    input_pdf = Path(args.input)
+    output_pdf = Path(args.output)
+    work_dir = Path(args.work_dir) if args.work_dir else output_pdf.parent / f".{output_pdf.stem}_work"
+    
+    # 创建工作目录
+    images_dir = work_dir / "images"
+    ocr_dir = work_dir / "ocr_results"
+    translations_dir = work_dir / "translations"
+    
+    images_dir.mkdir(parents=True, exist_ok=True)
+    ocr_dir.mkdir(parents=True, exist_ok=True)
+    translations_dir.mkdir(parents=True, exist_ok=True)
+    
+    page_range = parse_page_range(args.pages)
+    verbose = not args.quiet
+    
+    if verbose:
+        print(f"📄 正在处理: {input_pdf}")
+        print(f"📁 工作目录: {work_dir}")
+    
+    # 步骤1: 提取图片
+    if verbose:
+        print("\n🖼️  [1/4] 正在提取PDF页面...")
+    
+    extractor = PDFExtractor(dpi=args.dpi)
+    images = extractor.extract_pages(input_pdf, output_dir=images_dir, page_range=page_range)
+    
+    if verbose:
+        print(f"   提取了 {len(images)} 页")
+    
+    # 步骤2: OCR识别
+    if verbose:
+        print("\n🔍 [2/4] 正在进行OCR识别...")
+    
+    ocr = OCREngine(lang=args.lang)
+    image_files = sorted(images_dir.glob("*.png"))
+    
+    for i, img_path in enumerate(image_files):
+        if verbose:
+            print(f"   识别第 {i + 1}/{len(image_files)} 页...")
+        
+        result = ocr.recognize(str(img_path), page_num=i)
+        
+        page_data = {
+            "page": i + 1,
+            "source_file": input_pdf.stem,
+            "image_file": img_path.name,
+            "text_blocks": [
+                {
+                    "text": block.text,
+                    "confidence": block.confidence,
+                    "bbox": block.bbox,
+                    "position": {
+                        "x": block.x,
+                        "y": block.y,
+                        "width": block.width,
+                        "height": block.height,
+                    }
+                }
+                for block in result.text_blocks
+            ],
+            "full_text": result.full_text,
+            "text_block_count": len(result.text_blocks),
+        }
+        
+        output_file = ocr_dir / f"page_{i + 1:04d}.json"
+        with open(output_file, "w", encoding="utf-8") as f:
+            json.dump(page_data, f, ensure_ascii=False, indent=2)
+    
+    # 步骤3: 翻译
+    if verbose:
+        print("\n🌐 [3/4] 正在翻译...")
+    
+    translator = Translator(
+        api_key=args.api_key,
+        base_url=args.base_url,
+        model=args.model,
+    )
+    
+    json_files = sorted(ocr_dir.glob("*.json"))
+    
+    for i, json_file in enumerate(json_files):
+        with open(json_file, "r", encoding="utf-8") as f:
+            ocr_data = json.load(f)
+        
+        full_text = ocr_data.get("full_text", "")
+        
+        if verbose:
+            print(f"   翻译第 {i + 1}/{len(json_files)} 页...")
+        
+        if not full_text.strip():
+            translated_text = ""
+        else:
+            result = translator.translate_paragraphs(full_text)
+            translated_text = result.translated
+        
+        translation_data = {
+            **ocr_data,
+            "translated_text": translated_text,
+        }
+        
+        output_file = translations_dir / json_file.name
+        with open(output_file, "w", encoding="utf-8") as f:
+            json.dump(translation_data, f, ensure_ascii=False, indent=2)
+    
+    # 步骤4: 生成PDF
+    if verbose:
+        print("\n📝 [4/4] 正在生成双语PDF...")
+    
+    contents: List[BilingualContent] = []
+    translation_files = sorted(translations_dir.glob("*.json"))
+    
+    for json_file in translation_files:
+        with open(json_file, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        
+        original = data.get("full_text", "")
+        translated = data.get("translated_text", "")
+        page_num = data.get("page", 1) - 1
+        
+        if original or translated:
+            contents.append(BilingualContent(
+                original=original,
+                translated=translated,
+                page_num=page_num,
+            ))
+    
+    generator = PDFGenerator()
+    output_format = OutputFormat(args.format)
+    
+    if output_format == OutputFormat.DUAL_COLUMN:
+        generator.generate_dual_column_pdf(contents, output_pdf, args.title)
+    elif output_format == OutputFormat.INTERLEAVED:
+        generator.generate_interleaved_pdf(contents, output_pdf, args.title)
+    else:
+        generator.generate_translation_only_pdf(contents, output_pdf, args.title)
+    
+    if verbose:
+        print(f"\n✅ 完成！输出文件: {output_pdf}")
+        print(f"   中间文件保存在: {work_dir}")
+
+
+# ============== 辅助函数 ==============
+
+def parse_page_range(pages_str: Optional[str]) -> Optional[tuple]:
+    """解析页面范围字符串"""
+    if not pages_str:
+        return None
+    
+    if "-" in pages_str:
+        start, end = pages_str.split("-")
+        return (int(start) - 1, int(end))
+    else:
+        page_num = int(pages_str) - 1
+        return (page_num, page_num + 1)
+
+
+# ============== CLI入口 ==============
 
 def main():
     """CLI主入口"""
     parser = argparse.ArgumentParser(
         description="PDF OCR翻译工具 - 从扫描PDF中提取文字并翻译",
         formatter_class=argparse.RawDescriptionHelpFormatter,
-        epilog="""
-示例:
-  ai-translater input.pdf output.pdf
-  ai-translater input.pdf output.pdf --format interleaved
-  ai-translater input.pdf output.pdf --pages 1-5
-  ai-translater input.pdf output.pdf --ocr-output-dir ./ocr_results/
-  ai-translater input.pdf --extract-only output.txt
-        """,
     )
     
-    parser.add_argument(
-        "input",
-        help="输入PDF文件路径",
+    subparsers = parser.add_subparsers(dest="command", help="可用命令")
+    
+    # ---- extract 子命令 ----
+    extract_parser = subparsers.add_parser(
+        "extract",
+        help="从PDF提取图片",
+        description="将PDF每页转换为图片文件",
     )
-    parser.add_argument(
-        "output",
-        help="输出文件路径（PDF或TXT）",
+    extract_parser.add_argument("input", help="输入PDF文件路径")
+    extract_parser.add_argument("--output-dir", "-o", required=True, help="输出图片目录")
+    extract_parser.add_argument("--pages", "-p", help="页面范围，如 '1-5' 或 '3'")
+    extract_parser.add_argument("--dpi", type=int, default=300, help="图片DPI，默认300")
+    extract_parser.add_argument("-q", "--quiet", action="store_true", help="安静模式")
+    extract_parser.set_defaults(func=cmd_extract)
+    
+    # ---- ocr 子命令 ----
+    ocr_parser = subparsers.add_parser(
+        "ocr",
+        help="对图片进行OCR识别",
+        description="识别图片中的文字，输出JSON格式结果",
     )
-    parser.add_argument(
-        "-f", "--format",
-        choices=["dual", "interleaved", "translation"],
-        default="dual",
-        help="输出格式: dual(左右双栏), interleaved(上下交替), translation(仅译文)",
+    ocr_parser.add_argument("--input-dir", "-i", required=True, help="输入图片目录")
+    ocr_parser.add_argument("--output-dir", "-o", required=True, help="输出OCR结果目录")
+    ocr_parser.add_argument("--lang", default="en", help="识别语言，默认en")
+    ocr_parser.add_argument("-q", "--quiet", action="store_true", help="安静模式")
+    ocr_parser.set_defaults(func=cmd_ocr)
+    
+    # ---- translate 子命令 ----
+    translate_parser = subparsers.add_parser(
+        "translate",
+        help="翻译OCR结果",
+        description="读取OCR结果JSON文件，使用AI进行翻译",
     )
-    parser.add_argument(
-        "-p", "--pages",
-        help="页面范围，如 '1-5' 或 '3'",
+    translate_parser.add_argument("--input-dir", "-i", required=True, help="输入OCR结果目录")
+    translate_parser.add_argument("--output-dir", "-o", required=True, help="输出翻译结果目录")
+    translate_parser.add_argument("--api-key", help="OpenAI API密钥")
+    translate_parser.add_argument("--base-url", help="OpenAI API基础URL")
+    translate_parser.add_argument("--model", help="使用的模型，默认gpt-4o-mini")
+    translate_parser.add_argument("-q", "--quiet", action="store_true", help="安静模式")
+    translate_parser.set_defaults(func=cmd_translate)
+    
+    # ---- generate 子命令 ----
+    generate_parser = subparsers.add_parser(
+        "generate",
+        help="生成双语PDF",
+        description="从翻译结果生成双语对照PDF",
     )
-    parser.add_argument(
-        "-t", "--title",
-        help="PDF文档标题",
+    generate_parser.add_argument("--input-dir", "-i", required=True, help="输入翻译结果目录")
+    generate_parser.add_argument("--output", "-o", required=True, help="输出PDF文件路径")
+    generate_parser.add_argument("--format", "-f", choices=["dual", "interleaved", "translation"],
+                                 default="dual", help="输出格式")
+    generate_parser.add_argument("--title", "-t", help="PDF文档标题")
+    generate_parser.add_argument("-q", "--quiet", action="store_true", help="安静模式")
+    generate_parser.set_defaults(func=cmd_generate)
+    
+    # ---- all 子命令 ----
+    all_parser = subparsers.add_parser(
+        "all",
+        help="执行完整流程",
+        description="从PDF到双语PDF的完整流程",
+        epilog="""
+示例:
+  ai-translater all input.pdf output.pdf
+  ai-translater all input.pdf output.pdf --format interleaved
+  ai-translater all input.pdf output.pdf --pages 1-5
+  ai-translater all input.pdf output.pdf --work-dir ./work/
+        """,
     )
-    parser.add_argument(
-        "--extract-only",
-        action="store_true",
-        help="仅提取文本，不翻译",
-    )
-    parser.add_argument(
-        "--api-key",
-        help="OpenAI API密钥（或设置OPENAI_API_KEY环境变量）",
-    )
-    parser.add_argument(
-        "--base-url",
-        help="OpenAI API基础URL",
-    )
-    parser.add_argument(
-        "--model",
-        help="使用的模型，默认gpt-4o-mini",
-    )
-    parser.add_argument(
-        "--dpi",
-        type=int,
-        default=300,
-        help="PDF转图片的DPI，默认300",
-    )
-    parser.add_argument(
-        "-q", "--quiet",
-        action="store_true",
-        help="安静模式，不输出详细信息",
-    )
-    parser.add_argument(
-        "--ocr-output-dir",
-        help="OCR结果保存目录，每页生成独立JSON文件",
-    )
-
+    all_parser.add_argument("input", help="输入PDF文件路径")
+    all_parser.add_argument("output", help="输出PDF文件路径")
+    all_parser.add_argument("--format", "-f", choices=["dual", "interleaved", "translation"],
+                            default="dual", help="输出格式")
+    all_parser.add_argument("--pages", "-p", help="页面范围，如 '1-5' 或 '3'")
+    all_parser.add_argument("--title", "-t", help="PDF文档标题")
+    all_parser.add_argument("--work-dir", "-w", help="工作目录，存放中间文件")
+    all_parser.add_argument("--dpi", type=int, default=300, help="图片DPI，默认300")
+    all_parser.add_argument("--lang", default="en", help="OCR识别语言，默认en")
+    all_parser.add_argument("--api-key", help="OpenAI API密钥")
+    all_parser.add_argument("--base-url", help="OpenAI API基础URL")
+    all_parser.add_argument("--model", help="使用的模型，默认gpt-4o-mini")
+    all_parser.add_argument("-q", "--quiet", action="store_true", help="安静模式")
+    all_parser.set_defaults(func=cmd_all)
+    
+    # 解析参数
     args = parser.parse_args()
-
-    # 解析页面范围
-    page_range = None
-    if args.pages:
-        if "-" in args.pages:
-            start, end = args.pages.split("-")
-            page_range = (int(start) - 1, int(end))  # 转换为0-based
-        else:
-            page_num = int(args.pages) - 1
-            page_range = (page_num, page_num + 1)
-
+    
+    if not args.command:
+        parser.print_help()
+        sys.exit(1)
+    
     try:
-        translator = PDFTranslator(
-            openai_api_key=args.api_key,
-            openai_base_url=args.base_url,
-            openai_model=args.model,
-            dpi=args.dpi,
-        )
-
-        if args.extract_only:
-            # 仅提取文本
-            text = translator.extract_text(
-                args.input,
-                args.output,
-                page_range=page_range,
-            )
-            if not args.quiet:
-                print(f"✅ 文本已提取到: {args.output}")
-        else:
-            # 完整的翻译流程
-            output_format = OutputFormat(args.format)
-            translator.process(
-                input_pdf=args.input,
-                output_pdf=args.output,
-                output_format=output_format,
-                title=args.title,
-                page_range=page_range,
-                ocr_output_dir=args.ocr_output_dir,
-                verbose=not args.quiet,
-            )
-
+        args.func(args)
     except FileNotFoundError as e:
         print(f"❌ 错误: {e}", file=sys.stderr)
         sys.exit(1)
@@ -387,4 +514,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

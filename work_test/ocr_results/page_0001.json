@@ -1,46 +1,47 @@
 {
   "page": 1,
-  "source_file": "test",
+  "source_file": "page_0001",
+  "image_file": "page_0001.png",
   "text_blocks": [
     {
-      "text": "..",
-      "confidence": 0.6170951128005981,
+      "text": ".",
+      "confidence": 0.7036275267601013,
       "bbox": [
         [
-          66,
+          67,
           75
         ],
         [
-          334,
-          75
+          324,
+          73
         ],
         [
-          334,
-          693
+          328,
+          657
         ],
         [
-          66,
-          693
+          71,
+          658
         ]
       ],
       "position": {
-        "x": 66,
-        "y": 75,
-        "width": 268,
-        "height": 618
+        "x": 67,
+        "y": 73,
+        "width": 261,
+        "height": 585
       }
     },
     {
       "text": "ESSENTIAL",
-      "confidence": 0.9999330043792725,
+      "confidence": 0.9999561309814453,
       "bbox": [
         [
           508,
-          837
+          838
         ],
         [
           1315,
-          837
+          838
         ],
         [
           1315,
@@ -53,26 +54,26 @@
       ],
       "position": {
         "x": 508,
-        "y": 837,
+        "y": 838,
         "width": 807,
-        "height": 123
+        "height": 122
       }
     },
     {
       "text": "EMOTIONS",
-      "confidence": 0.9998034238815308,
+      "confidence": 0.9997609853744507,
       "bbox": [
         [
           507,
-          1010
-        ],
-        [
-          1312,
-          1006
+          1011
         ],
         [
           1313,
-          1123
+          1008
+        ],
+        [
+          1313,
+          1124
         ],
         [
           507,
@@ -81,42 +82,42 @@
       ],
       "position": {
         "x": 507,
-        "y": 1006,
+        "y": 1008,
         "width": 806,
-        "height": 120
+        "height": 118
       }
     },
     {
       "text": "PROCESS, RELEASE & LIVE FREE",
-      "confidence": 0.9860626459121704,
+      "confidence": 0.9925715327262878,
       "bbox": [
         [
           470,
-          1892
+          1891
         ],
         [
-          1364,
+          1363,
           1888
         ],
         [
-          1365,
-          1938
+          1364,
+          1937
         ],
         [
           470,
-          1943
+          1941
         ]
       ],
       "position": {
         "x": 470,
         "y": 1888,
-        "width": 895,
-        "height": 55
+        "width": 894,
+        "height": 53
       }
     },
     {
       "text": "TH",
-      "confidence": 0.9992057085037231,
+      "confidence": 0.9994217157363892,
       "bbox": [
         [
           908,
@@ -144,7 +145,7 @@
     },
     {
       "text": "12",
-      "confidence": 0.9998273849487305,
+      "confidence": 0.9999098181724548,
       "bbox": [
         [
           870,
@@ -172,7 +173,7 @@
     },
     {
       "text": "EDITION",
-      "confidence": 0.9998747110366821,
+      "confidence": 0.9998892545700073,
       "bbox": [
         [
           818,
@@ -199,6 +200,6 @@
       }
     }
   ],
-  "full_text": "..\nESSENTIAL\nEMOTIONS\nPROCESS, RELEASE & LIVE FREE\n12 TH\nEDITION",
+  "full_text": ".\nESSENTIAL\nEMOTIONS\nPROCESS, RELEASE & LIVE FREE\n12 TH\nEDITION",
   "text_block_count": 7
 }
