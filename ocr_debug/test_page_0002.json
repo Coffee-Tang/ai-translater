@@ -1,0 +1,316 @@
+{
+  "page": 2,
+  "source_file": "test",
+  "text_blocks": [
+    {
+      "text": "PROCESS. RELEASE. LIVE FREE.",
+      "confidence": 0.998845636844635,
+      "bbox": [
+        [
+          490,
+          249
+        ],
+        [
+          1346,
+          247
+        ],
+        [
+          1346,
+          301
+        ],
+        [
+          490,
+          303
+        ]
+      ],
+      "position": {
+        "x": 490,
+        "y": 247,
+        "width": 856,
+        "height": 56
+      }
+    },
+    {
+      "text": "Physical pain",
+      "confidence": 0.9740851521492004,
+      "bbox": [
+        [
+          777,
+          736
+        ],
+        [
+          1061,
+          734
+        ],
+        [
+          1062,
+          786
+        ],
+        [
+          777,
+          788
+        ]
+      ],
+      "position": {
+        "x": 777,
+        "y": 734,
+        "width": 285,
+        "height": 54
+      }
+    },
+    {
+      "text": "A lack or excess",
+      "confidence": 0.9986200332641602,
+      "bbox": [
+        [
+          1292,
+          735
+        ],
+        [
+          1621,
+          739
+        ],
+        [
+          1620,
+          783
+        ],
+        [
+          1292,
+          779
+        ]
+      ],
+      "position": {
+        "x": 1292,
+        "y": 735,
+        "width": 329,
+        "height": 48
+      }
+    },
+    {
+      "text": "Drawn or resistant",
+      "confidence": 0.9568727016448975,
+      "bbox": [
+        [
+          212,
+          742
+        ],
+        [
+          592,
+          742
+        ],
+        [
+          592,
+          783
+        ],
+        [
+          212,
+          783
+        ]
+      ],
+      "position": {
+        "x": 212,
+        "y": 742,
+        "width": 380,
+        "height": 41
+      }
+    },
+    {
+      "text": "to an oil?",
+      "confidence": 0.9857117533683777,
+      "bbox": [
+        [
+          304,
+          789
+        ],
+        [
+          497,
+          787
+        ],
+        [
+          497,
+          831
+        ],
+        [
+          304,
+          834
+        ]
+      ],
+      "position": {
+        "x": 304,
+        "y": 787,
+        "width": 193,
+        "height": 47
+      }
+    },
+    {
+      "text": "or discomfort?",
+      "confidence": 0.9994654059410095,
+      "bbox": [
+        [
+          767,
+          793
+        ],
+        [
+          1071,
+          791
+        ],
+        [
+          1072,
+          836
+        ],
+        [
+          767,
+          838
+        ]
+      ],
+      "position": {
+        "x": 767,
+        "y": 791,
+        "width": 305,
+        "height": 47
+      }
+    },
+    {
+      "text": "of emotion?",
+      "confidence": 0.9355344772338867,
+      "bbox": [
+        [
+          1332,
+          792
+        ],
+        [
+          1586,
+          792
+        ],
+        [
+          1586,
+          836
+        ],
+        [
+          1332,
+          836
+        ]
+      ],
+      "position": {
+        "x": 1332,
+        "y": 792,
+        "width": 254,
+        "height": 44
+      }
+    },
+    {
+      "text": "LOOK UP",
+      "confidence": 0.9996835589408875,
+      "bbox": [
+        [
+          795,
+          890
+        ],
+        [
+          1043,
+          888
+        ],
+        [
+          1043,
+          940
+        ],
+        [
+          795,
+          942
+        ]
+      ],
+      "position": {
+        "x": 795,
+        "y": 888,
+        "width": 248,
+        "height": 54
+      }
+    },
+    {
+      "text": "Body",
+      "confidence": 0.9993845820426941,
+      "bbox": [
+        [
+          841,
+          1311
+        ],
+        [
+          1004,
+          1321
+        ],
+        [
+          1000,
+          1394
+        ],
+        [
+          837,
+          1385
+        ]
+      ],
+      "position": {
+        "x": 837,
+        "y": 1311,
+        "width": 167,
+        "height": 83
+      }
+    },
+    {
+      "text": "Emotion",
+      "confidence": 0.9997349381446838,
+      "bbox": [
+        [
+          1307,
+          1321
+        ],
+        [
+          1563,
+          1321
+        ],
+        [
+          1563,
+          1376
+        ],
+        [
+          1307,
+          1376
+        ]
+      ],
+      "position": {
+        "x": 1307,
+        "y": 1321,
+        "width": 256,
+        "height": 55
+      }
+    },
+    {
+      "text": "Oil",
+      "confidence": 0.9996628165245056,
+      "bbox": [
+        [
+          364,
+          1323
+        ],
+        [
+          458,
+          1323
+        ],
+        [
+          458,
+          1382
+        ],
+        [
+          364,
+          1382
+        ]
+      ],
+      "position": {
+        "x": 364,
+        "y": 1323,
+        "width": 94,
+        "height": 59
+      }
+    }
+  ],
+  "full_text": "PROCESS. RELEASE. LIVE FREE.\nDrawn or resistant Physical pain A lack or excess\nto an oil? or discomfort? of emotion?\nLOOK UP\nOil Body Emotion",
+  "text_block_count": 11
+}

@@ -100,13 +100,18 @@ class OCREngine:
         text_blocks: List[TextBlock] = []
         
         for res in result:
-            # 获取OCR结果
-            ocr_result = res.get("ocr_result", []) if isinstance(res, dict) else []
+            # PaddleOCR 3.x 使用 rec_texts, rec_scores, rec_polys
+            rec_texts = res.get("rec_texts", [])
+            rec_scores = res.get("rec_scores", [])
+            rec_polys = res.get("rec_polys", [])
             
-            for item in ocr_result:
-                bbox = item.get("bbox", [])
-                text = item.get("text", "")
-                score = item.get("score", 0.0)
+            # 遍历识别结果
+            for i, text in enumerate(rec_texts):
+                if not text:
+                    continue
+                    
+                score = rec_scores[i] if i < len(rec_scores) else 0.0
+                bbox = rec_polys[i].tolist() if i < len(rec_polys) else []
                 
                 if text and bbox:
                     text_blocks.append(TextBlock(
