@@ -47,7 +47,12 @@ htmlcov/
 # Output files
 output/
 *.pdf
+*.docx
 !test*.pdf
+
+# Work directories (temporary files)
+work_*/
+.*.work/
 
 # UV
 uv.lock
