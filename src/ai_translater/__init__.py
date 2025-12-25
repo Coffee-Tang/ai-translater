@@ -15,6 +15,7 @@ from .ocr_engine import OCREngine
 from .pdf_extractor import PDFExtractor
 from .pdf_generator import BilingualContent, PDFGenerator
 from .translator import Translator
+from .word_generator import WordGenerator
 
 __version__ = "0.1.0"
 
@@ -23,6 +24,7 @@ __all__ = [
     "OCREngine", 
     "Translator",
     "PDFGenerator",
+    "WordGenerator",
     "BilingualContent",
     "OutputFormat",
 ]

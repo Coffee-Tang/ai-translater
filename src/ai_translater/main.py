@@ -22,6 +22,7 @@ from .ocr_engine import OCREngine, PageOCRResult, TextBlock
 from .pdf_extractor import PDFExtractor
 from .pdf_generator import BilingualContent, PDFGenerator
 from .translator import Translator
+from .word_generator import WordGenerator
 
 
 class OutputFormat(str, Enum):
@@ -287,14 +288,14 @@ Translate the content between markers while keeping the markers intact."""
     return "\n\n---PAGE_BREAK---\n\n".join(translated_pages)
 
 
-# ============== 步骤4: 生成PDF ==============
+# ============== 步骤4: 生成文档 ==============
 
 def cmd_generate(args):
-    """生成双语PDF"""
+    """生成双语文档（PDF或Word）"""
     load_dotenv()
     
     input_dir = Path(args.input_dir)
-    output_pdf = Path(args.output)
+    output_file = Path(args.output)
     
     if not args.quiet:
         print(f"📂 输入目录: {input_dir}")
@@ -324,22 +325,40 @@ def cmd_generate(args):
                 page_num=page_num,
             ))
     
-    if not args.quiet:
-        print(f"📝 正在生成双语PDF ({len(contents)} 页)...")
-    
-    # 生成PDF
-    generator = PDFGenerator()
+    # 根据扩展名选择输出格式
+    is_word = output_file.suffix.lower() in ['.docx', '.doc']
     output_format = OutputFormat(args.format)
     
-    if output_format == OutputFormat.DUAL_COLUMN:
-        generator.generate_dual_column_pdf(contents, output_pdf, args.title)
-    elif output_format == OutputFormat.INTERLEAVED:
-        generator.generate_interleaved_pdf(contents, output_pdf, args.title)
+    if is_word:
+        if not args.quiet:
+            print(f"📝 正在生成双语Word文档 ({len(contents)} 页)...")
+        
+        generator = WordGenerator()
+        
+        if output_format == OutputFormat.DUAL_COLUMN:
+            generator.generate_dual_column_docx(contents, output_file, args.title)
+        elif output_format == OutputFormat.INTERLEAVED:
+            generator.generate_interleaved_docx(contents, output_file, args.title)
+        else:
+            generator.generate_translation_only_docx(contents, output_file, args.title)
+        
+        if not args.quiet:
+            print(f"✅ Word文档已生成: {output_file}")
     else:
-        generator.generate_translation_only_pdf(contents, output_pdf, args.title)
-    
-    if not args.quiet:
-        print(f"✅ PDF已生成: {output_pdf}")
+        if not args.quiet:
+            print(f"📝 正在生成双语PDF ({len(contents)} 页)...")
+        
+        generator = PDFGenerator()
+        
+        if output_format == OutputFormat.DUAL_COLUMN:
+            generator.generate_dual_column_pdf(contents, output_file, args.title)
+        elif output_format == OutputFormat.INTERLEAVED:
+            generator.generate_interleaved_pdf(contents, output_file, args.title)
+        else:
+            generator.generate_translation_only_pdf(contents, output_file, args.title)
+        
+        if not args.quiet:
+            print(f"✅ PDF已生成: {output_file}")
 
 
 # ============== 步骤5: 完整流程 ==============
@@ -474,9 +493,12 @@ def cmd_all(args):
         with open(output_file, "w", encoding="utf-8") as f:
             json.dump(translation_data, f, ensure_ascii=False, indent=2)
     
-    # 步骤4: 生成PDF
+    # 步骤4: 生成文档（PDF或Word）
+    is_word = output_pdf.suffix.lower() in ['.docx', '.doc']
+    doc_type = "Word文档" if is_word else "PDF"
+    
     if verbose:
-        print("\n📝 [4/4] 正在生成双语PDF...")
+        print(f"\n📝 [4/4] 正在生成双语{doc_type}...")
     
     contents: List[BilingualContent] = []
     translation_files = sorted(translations_dir.glob("*.json"))
@@ -496,15 +518,24 @@ def cmd_all(args):
                 page_num=page_num,
             ))
     
-    generator = PDFGenerator()
     output_format = OutputFormat(args.format)
     
-    if output_format == OutputFormat.DUAL_COLUMN:
-        generator.generate_dual_column_pdf(contents, output_pdf, args.title)
-    elif output_format == OutputFormat.INTERLEAVED:
-        generator.generate_interleaved_pdf(contents, output_pdf, args.title)
+    if is_word:
+        generator = WordGenerator()
+        if output_format == OutputFormat.DUAL_COLUMN:
+            generator.generate_dual_column_docx(contents, output_pdf, args.title)
+        elif output_format == OutputFormat.INTERLEAVED:
+            generator.generate_interleaved_docx(contents, output_pdf, args.title)
+        else:
+            generator.generate_translation_only_docx(contents, output_pdf, args.title)
     else:
-        generator.generate_translation_only_pdf(contents, output_pdf, args.title)
+        generator = PDFGenerator()
+        if output_format == OutputFormat.DUAL_COLUMN:
+            generator.generate_dual_column_pdf(contents, output_pdf, args.title)
+        elif output_format == OutputFormat.INTERLEAVED:
+            generator.generate_interleaved_pdf(contents, output_pdf, args.title)
+        else:
+            generator.generate_translation_only_pdf(contents, output_pdf, args.title)
     
     if verbose:
         print(f"\n✅ 完成！输出文件: {output_pdf}")
