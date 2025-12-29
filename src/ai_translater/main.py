@@ -369,6 +369,47 @@ def cmd_all(args):
     
     input_pdf = Path(args.input)
     output_pdf = Path(args.output)
+    verbose = not args.quiet
+    
+    # ===== 参数检查 =====
+    
+    # 1. 检查输入文件是否存在
+    if not input_pdf.exists():
+        print(f"❌ 错误: 输入文件不存在: {input_pdf}", file=sys.stderr)
+        sys.exit(1)
+    
+    # 2. 检查API密钥是否配置
+    api_key = args.api_key or os.getenv("OPENAI_API_KEY")
+    if not api_key:
+        print("❌ 错误: 未配置OpenAI API密钥", file=sys.stderr)
+        print("   请设置环境变量 OPENAI_API_KEY 或使用 --api-key 参数", file=sys.stderr)
+        sys.exit(1)
+    
+    # 3. 检查页面范围是否有效
+    extractor = PDFExtractor(dpi=args.dpi)
+    total_pages = extractor.get_page_count(input_pdf)
+    page_range = parse_page_range(args.pages)
+    
+    if page_range:
+        start_page, end_page = page_range
+        if start_page < 0:
+            print(f"❌ 错误: 起始页码不能小于1", file=sys.stderr)
+            sys.exit(1)
+        if end_page > total_pages:
+            print(f"❌ 错误: 结束页码 {end_page} 超出PDF总页数 {total_pages}", file=sys.stderr)
+            sys.exit(1)
+        if start_page >= end_page:
+            print(f"❌ 错误: 起始页码必须小于结束页码", file=sys.stderr)
+            sys.exit(1)
+    
+    if verbose:
+        print(f"📄 输入文件: {input_pdf} (共 {total_pages} 页)")
+        if page_range:
+            print(f"   处理范围: 第 {page_range[0] + 1} - {page_range[1]} 页")
+        print(f"✅ API密钥已配置")
+    
+    # ===== 开始处理 =====
+    
     work_dir = Path(args.work_dir) if args.work_dir else output_pdf.parent / f".{output_pdf.stem}_work"
     
     # 创建工作目录
@@ -380,18 +421,14 @@ def cmd_all(args):
     ocr_dir.mkdir(parents=True, exist_ok=True)
     translations_dir.mkdir(parents=True, exist_ok=True)
     
-    page_range = parse_page_range(args.pages)
-    verbose = not args.quiet
-    
     if verbose:
-        print(f"📄 正在处理: {input_pdf}")
         print(f"📁 工作目录: {work_dir}")
     
     # 步骤1: 提取图片
     if verbose:
         print("\n🖼️  [1/4] 正在提取PDF页面...")
     
-    extractor = PDFExtractor(dpi=args.dpi)
+    # extractor已在参数检查阶段创建
     images = extractor.extract_pages(input_pdf, output_dir=images_dir, page_range=page_range)
     
     if verbose:

@@ -58,3 +58,4 @@ work_*/
 uv.lock
 .history/
 test.pdf
+.output*
