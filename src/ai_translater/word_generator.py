@@ -225,3 +225,4 @@ class WordGenerator:
         shading.set(qn('w:fill'), color)
         para._p.get_or_add_pPr().append(shading)
 
+

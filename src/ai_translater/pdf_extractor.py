@@ -120,3 +120,4 @@ class PDFExtractor:
             raise ValueError(f"无法提取页面 {page_num}")
         return images[0]
 
+
